@@ -15,8 +15,8 @@ public class Runner
     {
         final  String FILE_NAME="src/in.txt";
         Scanner scanner;
-        AbstractReplace rrr=new DateReplace();
-        AbstractReplace fff=new MoneyReplace();
+        AbstractReplace dateReplace=new DateReplace();
+        AbstractReplace moneyReplace=new MoneyReplace();
 
         try
         {
@@ -26,9 +26,8 @@ public class Runner
             {
 
                 String readRow=scanner.nextLine();
-                fff.replace(readRow);
 
-                //System.out.println(rrr.replace(readRow));
+                System.out.println(moneyReplace.replace(dateReplace.replace(readRow)));
 
             }
 

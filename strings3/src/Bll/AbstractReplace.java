@@ -1,8 +1,5 @@
 package Bll;
 
-/**
- * Created by User on 09.11.2015.
- */
 public abstract class AbstractReplace
 {
     private StringBuilder row;
@@ -14,5 +11,5 @@ public abstract class AbstractReplace
 
         return row.toString();
     }
-   protected  abstract boolean isReplace(StringBuilder row);
+   protected abstract boolean isReplace(StringBuilder row);
 }

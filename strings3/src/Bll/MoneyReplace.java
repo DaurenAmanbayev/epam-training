@@ -13,22 +13,26 @@ import java.util.regex.Pattern;
 public class MoneyReplace extends AbstractReplace
 {
 
-
     @Override
     public boolean isReplace(StringBuilder row)
     {
-        final String PATTERN_DATE=".*\\s((\\d{1,3})(\\s+)(\\d{3}\\s+)*).*";
+        final String PATTERN_MONEY="\\b([1-9][0-9]{0,2}(\\s+[1-9][0-9]{2})*)(\\s*)(\\sbelarusian roubles|\\sblr)";
 
-        Pattern patternMoney=Pattern.compile(PATTERN_DATE);
-
+        Pattern patternMoney=Pattern.compile(PATTERN_MONEY);
         Matcher matcher=patternMoney.matcher(row);
 
         if(matcher.find())
         {
-            System.out.println(matcher.group());
-            return true;
-
-
+            //replace space between monies and  currency monies
+            //matcher.group(3)-excess space
+            row.replace(matcher.start(3), matcher.start(3) +matcher.group(3).length(), "");
+            if(matcher.group(2)!=null)
+            {
+                int startPositionMonies=matcher.start(1);
+                int endPositionMonies=matcher.start(1)+ matcher.group(1).length();
+                row.replace(startPositionMonies,endPositionMonies , matcher.group(1).replace(" ", ""));
+                return true;
+            }
         }
 
 
