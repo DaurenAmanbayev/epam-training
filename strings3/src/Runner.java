@@ -1,9 +1,7 @@
-import Bll.AbstractReplace;
 import Bll.DateReplace;
 import Bll.MoneyReplace;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -11,29 +9,43 @@ import java.util.Scanner;
  */
 public class Runner
 {
+    final static  String FILE_NAME="src/in.txt";
+    final static String FILE_OUT_NAME="src/out.txt";
     public static void main(String[] args)
     {
-        final  String FILE_NAME="src/in.txt";
-        Scanner scanner;
-        AbstractReplace dateReplace=new DateReplace();
-        AbstractReplace moneyReplace=new MoneyReplace();
+
+        Scanner scanner=null;
+        Writer writer=null;
 
         try
         {
             scanner=new Scanner(new FileReader(FILE_NAME));
+            writer=new FileWriter(FILE_OUT_NAME);
 
             while (scanner.hasNext())
             {
 
                 String readRow=scanner.nextLine();
-
-                System.out.println(moneyReplace.replace(dateReplace.replace(readRow)));
+                String afterDateReplace=DateReplace.replace(readRow);
+                String afterMoniesReplace= MoneyReplace.replace(afterDateReplace);
+                writer.write(afterMoniesReplace);
+                writer.write("\n");
 
             }
+            writer.close();
 
         } catch (FileNotFoundException e)
         {
             System.err.println("File not found");
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            if (scanner!=null)
+            {
+                scanner.close();
+            }
         }
     }
 }
