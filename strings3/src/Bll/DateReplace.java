@@ -15,39 +15,31 @@ public class DateReplace
 
     public static String replace(String inputRow)
     {
-        StringBuilder row=new StringBuilder(inputRow);
         Date dateForReplace;
-
         Pattern patternDate=Pattern.compile(PATTERN_DATE);
 
+        Matcher matcher=patternDate.matcher(inputRow);
 
-        while (true)
+        while(matcher.find())
         {
-            Matcher matcher=patternDate.matcher(row);
-            if(matcher.find())
+            String DateSeparator=matcher.group(2);
+            String formatInDate = "dd"+DateSeparator+"MM"+DateSeparator+"yy";
+            SimpleDateFormat dateFormatRead=new SimpleDateFormat(formatInDate);
+            SimpleDateFormat dateFormatSave=new SimpleDateFormat(FORMAT_OUT_DATE,Locale.ENGLISH);
+
+            try
             {
-                String DateSeparator=matcher.group(2);
-                String formatInDate = "dd"+DateSeparator+"MM"+DateSeparator+"yy";
-                SimpleDateFormat dateFormatRead=new SimpleDateFormat(formatInDate);
-                SimpleDateFormat dateFormatSave=new SimpleDateFormat(FORMAT_OUT_DATE,Locale.ENGLISH);
+                dateForReplace=dateFormatRead.parse(matcher.group(1));
+                String dateSaveString=dateFormatSave.format(dateForReplace);
+                inputRow=inputRow.replaceAll(matcher.group(1),dateSaveString);
+            } catch (ParseException e)
+            {
+                System.err.println("parse date imposible");
 
-                try
-                {
-                    dateForReplace=dateFormatRead.parse(matcher.group(1));
-                    int replaceStartPosition=matcher.start(1);
-                    int replaceEndPosition=matcher.start(1)+ matcher.group(1).length();
-                    String dateSaveString=dateFormatSave.format(dateForReplace);
-                    row.replace(replaceStartPosition,replaceEndPosition ,dateSaveString );
-                    continue;
-                } catch (ParseException e)
-                {
-                    System.err.println("parse date imposible");
-
-                }
             }
-            break;
         }
-        return row.toString();
+
+        return inputRow;
     }
 
 

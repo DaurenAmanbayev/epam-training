@@ -1,5 +1,5 @@
 import Bll.DateReplace;
-import Bll.MoneyReplace;
+import Bll.MoniesReplace;
 
 import java.io.*;
 import java.util.Scanner;
@@ -27,7 +27,7 @@ public class Runner
 
                 String readRow=scanner.nextLine();
                 String afterDateReplace=DateReplace.replace(readRow);
-                String afterMoniesReplace= MoneyReplace.replace(afterDateReplace);
+                String afterMoniesReplace= MoniesReplace.replace(afterDateReplace);
                 writer.write(afterMoniesReplace);
                 writer.write("\n");
 
