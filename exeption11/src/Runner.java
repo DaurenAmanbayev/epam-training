@@ -1,6 +1,4 @@
-import by.gsu.epamlab.ExampleException;
-import by.gsu.epamlab.Purchase;
-import by.gsu.epamlab.PurchaseList;
+import by.gsu.epamlab.Model.PurchaseList;
 
 public class Runner
 {
@@ -10,21 +8,20 @@ public class Runner
         PurchaseList purchaseAddon=new PurchaseList("addon.csv");
 
         purchaseList.printIntoTable();
-        purchaseList.addPurchases(0, purchaseAddon.getPurchase(purchaseAddon.getSize() - 1));
+        purchaseList.addPurchases(0, purchaseAddon.getPurchase(purchaseAddon.getSize()-1));
         purchaseList.addPurchases(1000, purchaseAddon.getPurchase(0));
-        purchaseList.replacePurchase(2, purchaseAddon.getPurchase(2));
+        purchaseList.setPurchase(2, purchaseAddon.getPurchase(2));
         purchaseList.printIntoTable();
-        try
-        {
-            purchaseList.remove(3);
+
+           /* purchaseList.remove(3);
             purchaseList.remove(10);
-            purchaseList.remove(-5);
-        } catch (ExampleException e)
-        {
-            //e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
+            purchaseList.remove(-5);*/
+
         purchaseList.printIntoTable();
+        purchaseList.sort();
+        purchaseList.printIntoTable();
+        purchaseList.find(purchaseAddon.getPurchase(3));
+        purchaseList.find(purchaseAddon.getPurchase(1));
 
     }
 }
