@@ -6,7 +6,7 @@ public class PriceDiscountPurchase extends Purchase
     final static String DISCOUNT="Discount";
     final int discount;
 
-    public PriceDiscountPurchase(String name, String price, String number, String discount) throws ExampleException
+    public PriceDiscountPurchase(String name, String price, String number, String discount) throws CsvExceptions
     {
         super(name, price, number);
 
@@ -15,7 +15,7 @@ public class PriceDiscountPurchase extends Purchase
             this.discount = parseNumber(discount,DISCOUNT);
         } else
         {
-            throw new ExampleException(DISCOUNT, ExampleException.StringException.NON_CORRECT);
+            throw new CsvExceptions(DISCOUNT, CsvExceptions.StringException.NON_CORRECT);
         }
     }
 

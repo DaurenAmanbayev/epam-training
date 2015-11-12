@@ -1,7 +1,7 @@
 package by.gsu.epamlab.bll;
 
 
-import by.gsu.epamlab.model.ExampleException;
+import by.gsu.epamlab.model.CsvExceptions;
 import by.gsu.epamlab.model.PriceDiscountPurchase;
 import by.gsu.epamlab.model.Purchase;
 
@@ -11,7 +11,7 @@ public class FabricPurchase
     final static int PURCHASE=3;
     final static int PRICE_DISCOUNT_PURCHASE=4;
 
-    public static Purchase getPurchase( String loadRow) throws ExampleException
+    public static Purchase getPurchase( String loadRow) throws CsvExceptions
     {
         String[] loadRows=loadRow.split(SEPARATOR);
         switch (loadRows.length)
@@ -26,7 +26,7 @@ public class FabricPurchase
             }
             default:
             {
-                throw new ExampleException(ExampleException.StringException.WRONG_NUMBER);
+                throw new CsvExceptions(CsvExceptions.StringException.WRONG_NUMBER);
             }
         }
     }

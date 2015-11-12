@@ -30,8 +30,8 @@ public class PurchaseList
 
     public PurchaseList(String fileName,String comparatorName)
     {
-        this.purchases = new ArrayList<>();
-        this.badRow = new ArrayList<>();
+        this.purchases = new ArrayList<Purchase>();
+        this.badRow = new ArrayList<String>();
         fillingList(fileName);
 
         if(!comparatorName.equals(""))
@@ -62,8 +62,8 @@ public class PurchaseList
 
     public PurchaseList()
     {
-        this.purchases = new ArrayList<>();
-        this.badRow = new ArrayList<>();
+        this.purchases = new ArrayList<Purchase>();
+        this.badRow = new ArrayList<String>();
         this.comparator = null;
     }
 
@@ -80,7 +80,7 @@ public class PurchaseList
                 try
                 {
                     purchases.add(FabricPurchase.getPurchase(loadRow));
-                } catch (ExampleException e)
+                } catch (CsvExceptions e)
                 {
                     badRow.add(loadRow+ DELIMETER+e.getMessage());
 

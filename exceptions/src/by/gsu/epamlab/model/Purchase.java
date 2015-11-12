@@ -10,16 +10,16 @@ public class Purchase
     private final int price;
     private final int number;
 
-    public Purchase(String name, String price, String number) throws ExampleException
+    public Purchase(String name, String price, String number) throws CsvExceptions
     {
-        if(name.equals("")) throw new ExampleException(NAME, ExampleException.StringException.EMPTY);
+        if(name.equals("")) throw new CsvExceptions(NAME, CsvExceptions.StringException.EMPTY);
 
         this.number = parseNumber(number,NUMBER);
         this.name = name;
         this.price=parseNumber(price,PRICE);
     }
 
-    protected int parseNumber(String number,String type) throws ExampleException
+    protected int parseNumber(String number,String type) throws CsvExceptions
     {
         int tempNumber;
         try
@@ -28,9 +28,9 @@ public class Purchase
 
         } catch (NumberFormatException e)
         {
-            throw new ExampleException(type, ExampleException.StringException.NOT_PARSE);
+            throw new CsvExceptions(type, CsvExceptions.StringException.NOT_PARSE);
         }
-        if(tempNumber<0)throw new ExampleException(type, ExampleException.StringException.NON_POSITIVE);
+        if(tempNumber<0)throw new CsvExceptions(type, CsvExceptions.StringException.NON_POSITIVE);
         return tempNumber;
     }
 

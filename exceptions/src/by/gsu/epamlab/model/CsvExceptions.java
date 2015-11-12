@@ -1,7 +1,7 @@
 package by.gsu.epamlab.model;
 
 
-public class ExampleException extends Exception
+public class CsvExceptions extends Exception
 {
     public enum StringException
 
@@ -22,12 +22,12 @@ public class ExampleException extends Exception
              }
         }
 
-    public ExampleException(String message,StringException select){
+    public CsvExceptions(String message, StringException select){
 
         super(message+select.getText());
 
     }
-    public ExampleException(StringException select){
+    public CsvExceptions(StringException select){
 
         super(select.getText());
 
