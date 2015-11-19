@@ -1,6 +1,8 @@
 package by.gsu.epamlab.model;
 
 
+import java.lang.reflect.Method;
+
 public class PriceDiscountPurchase extends Purchase
 {
     final static String DISCOUNT="Discount";
@@ -19,8 +21,15 @@ public class PriceDiscountPurchase extends Purchase
         }
     }
 
+    public PriceDiscountPurchase()
+    {
+        super();
+        discount=0;
+    }
+
     public int getTotalPrice()
     {
+
         return super.getTotalPrice()-discount*getNumber();
     }
 

@@ -12,7 +12,7 @@ public class Purchase
 
     public Purchase(String name, String price, String number) throws CsvExceptions
     {
-        if(name.equals("")) throw new CsvExceptions(NAME, CsvExceptions.StringException.EMPTY);
+        if(name.compareTo("")==0) throw new CsvExceptions(NAME, CsvExceptions.StringException.EMPTY);
 
         this.number = parseNumber(number,NUMBER);
         this.name = name;

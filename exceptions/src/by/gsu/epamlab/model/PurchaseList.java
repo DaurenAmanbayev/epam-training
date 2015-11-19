@@ -10,54 +10,23 @@ import java.util.*;
 
 public class PurchaseList
 {
-    final static String FORMAT_TABLE_STRING="%-12s%-12s%-8s%-12s%-12s%n";
-    final static String FORMAT_STRING_TOTAL="%-10s%30d%n";
-    final static String TOTAL_COST="Total cost =";
-    final static String COLUMN_NAME="Name;Price;Number;Discount;Cost";
-    final static String SEPARATOR=";";
     final static String DELIMETER="\t-> ";
-    final static String BASIC_NAME_COMPARATOR="by.gsu.epamlab.bll.Comparators$";
-    final static String COMPARATOR_NAME="PurchaseComparatorV2";
     final static String STRING_ELEMENT="Element";
-    final static String FIND_IN="Find in";
+    final static String FIND_IN="Find in ";
     final static String IS_NOT_FOUND="is not found";
     final static String ROW=" row";
     final static String DONT_REMOVED="Row don`t removed";
 
     private List<Purchase> purchases;
     private List<String> badRow;
-    private Comparator comparator;
+    private static Comparator comparator=null;
 
     public PurchaseList(String fileName,String comparatorName)
     {
         this.purchases = new ArrayList<Purchase>();
         this.badRow = new ArrayList<String>();
         fillingList(fileName);
-
-        if(!comparatorName.equals(""))
-        {
-            Class comparatorClass;
-
-            try
-            {
-                comparatorClass = Class.forName(BASIC_NAME_COMPARATOR+comparatorName);
-                Object obj=comparatorClass.newInstance();
-                if(comparatorName.equals(COMPARATOR_NAME))
-                {
-                     comparator =(Comparators.PurchaseComparatorV2)obj;
-
-                }
-                else
-                {
-                     comparator =(Comparators.PurchaseComparatorV1)obj;
-                }
-
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
+        this.comparator=Comparators.getComparator(comparatorName);
     }
 
     public PurchaseList()
@@ -89,7 +58,6 @@ public class PurchaseList
         } catch (FileNotFoundException e)
         {
             System.err.println("File not found");
-
         }
         finally
         {
@@ -115,36 +83,29 @@ public class PurchaseList
 
     public Purchase getPurchase(int index)
     {
-        if(index<0)return null ;
-        Purchase purchase=null;
-        try
+        if(!isIndex(index))
         {
-            purchase= purchases.get(index);
-        } catch (IndexOutOfBoundsException e)
-        {
-            //e.printStackTrace();
-            System.err.println("Purchase with index " +index +" isn`t");
+            throw new IndexOutOfBoundsException("Purchase with index " +index +" isn`t");
         }
-        return purchase;
+
+        return purchases.get(index);
     }
 
+    private boolean isIndex(int index)
+    {
+        return index >= 0 && index < purchases.size()-1;
+    }
     public void setPurchase(int index, Purchase purchase)
     {
-        if(purchase==null)return;
-        try
-        {
-            purchases.set(index,purchase);
-        } catch (Exception e)
-        {
-            //e.printStackTrace();
-            System.err.println("In list not purchase with index "+ index);
-        }
+        if(!isIndex(index))  throw new IndexOutOfBoundsException("Purchase with index " +index +" isn`t");
+
+        purchases.set(index,purchase);
+
     }
 
     public void addPurchases(int index,Purchase purchase)
     {
-        if(purchase==null) return;
-        if(index>purchases.size()-1||index<0)
+        if(!isIndex(index))
         {
             purchases.add(purchase);
         }
@@ -161,17 +122,10 @@ public class PurchaseList
         return purchases.size();
     }
 
-    public void remove(int index)
+    public void remove(int index) throws IndexOutOfBoundsException
     {
-        try
-        {
-            purchases.remove(index);
-        } catch (Exception e)
-        {
-            System.err.println(DONT_REMOVED+e.getMessage());
-        }
-
-
+        if(!isIndex(index)){throw new IndexOutOfBoundsException ("Purchase with index " +index +" isn`t");}
+        purchases.remove(index);
     }
 
     public int getTotalCost()
@@ -186,18 +140,17 @@ public class PurchaseList
         }
         return totalCost;
     }
-    public void printIntoTable()
-    {
-        System.out.format(FORMAT_TABLE_STRING, COLUMN_NAME.split(SEPARATOR));
 
-        if (!purchases.isEmpty())
+    @Override
+    public String toString()
+    {
+        StringBuilder outString=new StringBuilder();
+        for(Purchase purchase:purchases)
         {
-            for(Purchase purchase:purchases)
-            {
-                System.out.format(FORMAT_TABLE_STRING, purchase.toString().split(SEPARATOR));
-            }
+            outString.append(purchase.toString())
+                    .append("\n");
         }
-        System.out.format(FORMAT_STRING_TOTAL, TOTAL_COST, getTotalCost());
+        return outString.toString();
     }
 
     public void sort()
@@ -209,7 +162,6 @@ public class PurchaseList
     public void find(Purchase purchase)
     {
         if (comparator==null)return;
-        if (purchase==null) return;
         sort();
         int position=Collections.binarySearch(purchases,purchase, comparator);
 
