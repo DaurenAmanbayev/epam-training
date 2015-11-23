@@ -1,5 +1,6 @@
 package by.gsu.epamlab.bll;
 
+import by.gsu.epamlab.model.Constants;
 import by.gsu.epamlab.model.PriceDiscountPurchase;
 import by.gsu.epamlab.model.Purchase;
 
@@ -8,22 +9,22 @@ import java.util.Comparator;
 
 public class Comparators
 {
-    final static String BASIC_NAME_COMPARATOR="by.gsu.epamlab.bll.Comparators$";
-    final static String COMPARATOR_NAME="PurchaseComparatorV2";
+
 
 
     public static Comparator<Purchase> getComparator(String comparatorName)
     {
-        Comparator comparator=null;
+        Comparator comparator=new Comparators.PurchaseComparatorV1();
+
         if(!comparatorName.equals(""))
         {
             Class comparatorClass;
 
             try
             {
-                comparatorClass = Class.forName(BASIC_NAME_COMPARATOR+comparatorName);
+                comparatorClass = Class.forName(Constants.BASIC_NAME_COMPARATOR+comparatorName);
                 Object obj=comparatorClass.newInstance();
-                if(comparatorName.equals(COMPARATOR_NAME))
+                if(comparatorName.equals(Constants.COMPARATOR_NAME))
                 {
                     comparator =(PurchaseComparatorV2)obj;
                 }
@@ -34,8 +35,7 @@ public class Comparators
 
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e)
             {
-                e.printStackTrace();
-
+                // if will be any exception method return comparator which is created in the first line this method
             }
         }
         return comparator;
@@ -78,7 +78,7 @@ public class Comparators
             }
             else
             {
-                if(!((t2 instanceof PriceDiscountPurchase)^(t1 instanceof PriceDiscountPurchase)))
+                if(t2 instanceof PriceDiscountPurchase == t1 instanceof PriceDiscountPurchase)
                 {
                     return t2.getTotalPrice() - t1.getTotalPrice();
                 }

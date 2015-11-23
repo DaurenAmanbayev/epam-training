@@ -1,28 +1,29 @@
 package by.gsu.epamlab.bll;
 
 
+import by.gsu.epamlab.model.Constants;
 import by.gsu.epamlab.model.CsvExceptions;
 import by.gsu.epamlab.model.PriceDiscountPurchase;
 import by.gsu.epamlab.model.Purchase;
 
 public class FabricPurchase
 {
-    final static String SEPARATOR=";";
-    final static int PURCHASE=3;
-    final static int PRICE_DISCOUNT_PURCHASE=4;
 
     public static Purchase getPurchase( String loadRow) throws CsvExceptions
     {
-        String[] loadRows=loadRow.split(SEPARATOR);
+        String[] loadRows=loadRow.split(Constants.SEPARATOR);
         switch (loadRows.length)
         {
-            case PURCHASE:
+            case Constants.PURCHASE:
             {
-                return new Purchase(loadRows[0],loadRows[1],loadRows[2]);
+                return new Purchase(loadRows[Constants.INDEX_NAME],
+                        loadRows[Constants.INDEX_PRICE],loadRows[Constants.INDEX_NUMBER]);
             }
-            case PRICE_DISCOUNT_PURCHASE:
+            case Constants.PRICE_DISCOUNT_PURCHASE:
             {
-                return new PriceDiscountPurchase(loadRows[0],loadRows[1],loadRows[2],loadRows[3]);
+                return new PriceDiscountPurchase(
+                        loadRows[Constants.INDEX_NAME],loadRows[Constants.INDEX_PRICE],
+                        loadRows[Constants.INDEX_NUMBER],loadRows[Constants.INDEX_DISCOUNT]);
             }
             default:
             {

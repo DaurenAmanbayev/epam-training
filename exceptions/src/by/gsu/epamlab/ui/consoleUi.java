@@ -1,30 +1,48 @@
 package by.gsu.epamlab.ui;
 
+import by.gsu.epamlab.model.Constants;
 import by.gsu.epamlab.model.Purchase;
 import by.gsu.epamlab.model.PurchaseList;
 
 import java.util.List;
 
-/**
- * Created by User on 16.11.2015.
- */
+
 public class consoleUi
 {
-    final static String FORMAT_TABLE_STRING="%-12s%-12s%-8s%-12s%-12s%n";
-    final static String FORMAT_STRING_TOTAL="%-10s%30d%n";
-    final static String TOTAL_COST="Total cost =";
-    final static String COLUMN_NAME="Name;Price;Number;Discount;Cost";
-    final static String SEPARATOR=";";
 
     public static void printTable(PurchaseList purchase)
     {
-        System.out.format(FORMAT_TABLE_STRING, COLUMN_NAME.split(SEPARATOR));
+        System.out.format(Constants.FORMAT_TABLE_STRING, Constants.COLUMN_NAME.split(Constants.SEPARATOR));
 
          for(Purchase purchaseTmp:purchase.getAll())
             {
-                System.out.format(FORMAT_TABLE_STRING, purchase.toString().split(SEPARATOR));
+                System.out.format(Constants.FORMAT_TABLE_STRING, purchaseTmp.toString().split(Constants.SEPARATOR));
             }
 
-        System.out.format(FORMAT_STRING_TOTAL, TOTAL_COST, purchase.getTotalCost());
+        System.out.format(Constants.FORMAT_STRING_TOTAL, Constants.TOTAL_COST, purchase.getTotalCost());
+    }
+
+    public static void printFindPurchase(Purchase purchase,PurchaseList purchaseList)
+    {
+        int findPurchase;
+        System.out.println(Constants.ELEMENT);
+        System.out.println(purchase);
+        try
+        {
+            findPurchase = purchaseList.find(purchase);
+            System.out.println(Constants.FIND_POSITION +findPurchase);
+
+        } catch (IllegalArgumentException e)
+        {
+           System.out.println(Constants.PURCHASE_NOT_FOUND);
+        }
+    }
+
+    public static void printBadLine(List<String> badLine)
+    {
+        for(String string:badLine)
+        {
+            System.err.println(string);
+        }
     }
 }

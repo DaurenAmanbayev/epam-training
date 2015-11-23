@@ -3,20 +3,17 @@ package by.gsu.epamlab.model;
 
 public class Purchase
 {
-    private final static String NAME="Name";
-    private final static String PRICE="Price";
-    private final static String NUMBER="Number";
     private final String name;
     private final int price;
     private final int number;
 
     public Purchase(String name, String price, String number) throws CsvExceptions
     {
-        if(name.compareTo("")==0) throw new CsvExceptions(NAME, CsvExceptions.StringException.EMPTY);
+        if(name.equals("")) throw new CsvExceptions(Constants.NAME, CsvExceptions.StringException.EMPTY);
 
-        this.number = parseNumber(number,NUMBER);
+        this.number = parseNumber(number,Constants.NUMBER);
         this.name = name;
-        this.price=parseNumber(price,PRICE);
+        this.price=parseNumber(price,Constants.PRICE);
     }
 
     protected int parseNumber(String number,String type) throws CsvExceptions

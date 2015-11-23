@@ -1,72 +1,65 @@
 import by.gsu.epamlab.model.CsvExceptions;
-import by.gsu.epamlab.model.PriceDiscountPurchase;
-import by.gsu.epamlab.model.Purchase;
 import by.gsu.epamlab.model.PurchaseList;
 import by.gsu.epamlab.ui.consoleUi;
 
 public class Runner
 {
     final static String FILE_EXTENSION=".csv";
+    final static int INDEX_ZERO=0;
+    final static int INDEX_ONE=1;
+    final static int INDEX_TWO=2;
+    final static int INDEX_THREE=3;
+    final static int INDEX_THOUSAND =1000;
+    final static int INDEX_TEN =10;
+    final static int INDEX_MINUS_FIVE =-5;
 
     public static void main(String[] args) throws CsvExceptions
     {
 
-        Purchase a=new Purchase();
-        PriceDiscountPurchase b=new PriceDiscountPurchase();
 
-
-
-        /*final String IN_FILE_NAME=args[0]+FILE_EXTENSION;
-        final String ADDON_FILE_NAME=args[1]+FILE_EXTENSION;
-        final String COMPARATOR_NAME=args[2];*/
-       // PurchaseList purchaseList=new PurchaseList(IN_FILE_NAME,COMPARATOR_NAME);
-        PurchaseList purchaseList=new PurchaseList("in"+FILE_EXTENSION,"PurchaseComparatorV1");
-        purchaseList.printBadRow();
-        //PurchaseList purchaseAddon=new PurchaseList(ADDON_FILE_NAME,COMPARATOR_NAME);
-        PurchaseList rrr=new PurchaseList();
-        PurchaseList purchaseAddon=new PurchaseList("addon"+FILE_EXTENSION,"PurchaseComparatorV1");
-        purchaseAddon.printBadRow();
-
+        final String IN_FILE_NAME=args[INDEX_ZERO]+FILE_EXTENSION;
+        final String ADDON_FILE_NAME=args[INDEX_ONE]+FILE_EXTENSION;
+        final String COMPARATOR_NAME=args[INDEX_TWO];
+        PurchaseList purchaseList=new PurchaseList(IN_FILE_NAME,COMPARATOR_NAME);
+        consoleUi.printBadLine(purchaseList.getBadLine());
+        PurchaseList purchaseAddon=new PurchaseList(ADDON_FILE_NAME,COMPARATOR_NAME);
+        consoleUi.printBadLine(purchaseAddon.getBadLine());
         consoleUi.printTable(purchaseList);
-        consoleUi.printTable(purchaseList);
-        int lastIndexAddon=purchaseAddon.getSize() - 1;
-        purchaseList.addPurchases(0, purchaseAddon.getPurchase(lastIndexAddon));
-        purchaseList.addPurchases(1000, purchaseAddon.getPurchase(0));
-        purchaseList.setPurchase(2, purchaseAddon.getPurchase(2));
-        consoleUi.printTable(purchaseList);
-
-
-        try
-        {
-            purchaseList.remove(3);
-        } catch (IndexOutOfBoundsException e)
-        {
-            //e.printStackTrace();
-            System.err.println(e.getMessage());
-        }try
-        {
-            purchaseList.remove(10);
-        } catch (IndexOutOfBoundsException e)
-        {
-            //e.printStackTrace();
-            System.err.println(e.getMessage());
-        }try
-        {
-            purchaseList.remove(-5);
-        } catch (IndexOutOfBoundsException e)
-        {
-            //e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
-
+        int maxIndexAddon=purchaseAddon.getSize() - 1;
+        purchaseList.addPurchases(INDEX_ZERO, purchaseAddon.getPurchase(maxIndexAddon));
+        purchaseList.addPurchases(INDEX_THOUSAND, purchaseAddon.getPurchase(INDEX_ZERO));
+        purchaseList.setPurchase(INDEX_TWO, purchaseAddon.getPurchase(INDEX_TWO));
 
         consoleUi.printTable(purchaseList);
 
         purchaseList.sort();
         consoleUi.printTable(purchaseList);
 
-        purchaseList.find(purchaseAddon.getPurchase(3));
-        purchaseList.find(purchaseAddon.getPurchase(1));
+        consoleUi.printFindPurchase(purchaseAddon.getPurchase(1),purchaseList);
+        consoleUi.printFindPurchase(purchaseAddon.getPurchase(3),purchaseList);
+        try
+        {
+            purchaseList.remove(INDEX_THREE);
+        } catch (IndexOutOfBoundsException e)
+        {
+            System.err.println(e.getMessage());
+        }
+
+        try
+        {
+            purchaseList.remove(INDEX_TEN);
+        } catch (IndexOutOfBoundsException e)
+        {
+            System.err.println(e.getMessage());
+        }
+
+        try
+        {
+            purchaseList.remove(INDEX_MINUS_FIVE);
+        } catch (IndexOutOfBoundsException e)
+        {
+            System.err.println(e.getMessage());
+        }
 
     }
 }

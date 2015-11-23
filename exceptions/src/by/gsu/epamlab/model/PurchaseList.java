@@ -10,12 +10,6 @@ import java.util.*;
 
 public class PurchaseList
 {
-    final static String DELIMETER="\t-> ";
-    final static String STRING_ELEMENT="Element";
-    final static String FIND_IN="Find in ";
-    final static String IS_NOT_FOUND="is not found";
-    final static String ROW=" row";
-    final static String DONT_REMOVED="Row don`t removed";
 
     private List<Purchase> purchases;
     private List<String> badRow;
@@ -23,16 +17,16 @@ public class PurchaseList
 
     public PurchaseList(String fileName,String comparatorName)
     {
-        this.purchases = new ArrayList<Purchase>();
-        this.badRow = new ArrayList<String>();
+        this.purchases = new ArrayList<>();
+        this.badRow = new ArrayList<>();
         fillingList(fileName);
         this.comparator=Comparators.getComparator(comparatorName);
     }
 
     public PurchaseList()
     {
-        this.purchases = new ArrayList<Purchase>();
-        this.badRow = new ArrayList<String>();
+        this.purchases = new ArrayList<>();
+        this.badRow = new ArrayList<>();
         this.comparator = null;
     }
 
@@ -51,13 +45,13 @@ public class PurchaseList
                     purchases.add(FabricPurchase.getPurchase(loadRow));
                 } catch (CsvExceptions e)
                 {
-                    badRow.add(loadRow+ DELIMETER+e.getMessage());
+                    badRow.add(loadRow+ Constants.DELIMETER+e.getMessage());
 
                 }
             }
         } catch (FileNotFoundException e)
         {
-            System.err.println("File not found");
+            throw new IllegalArgumentException(Constants.FILE_NOT_FOUND);
         }
         finally
         {
@@ -68,12 +62,9 @@ public class PurchaseList
         }
     }
 
-    public void printBadRow()
+    public List<String> getBadLine()
     {
-        for(String string:badRow)
-        {
-            System.err.println(string);
-        }
+        return badRow;
     }
 
     public List<Purchase> getAll()
@@ -85,7 +76,7 @@ public class PurchaseList
     {
         if(!isIndex(index))
         {
-            throw new IndexOutOfBoundsException("Purchase with index " +index +" isn`t");
+            throw new IndexOutOfBoundsException(Constants.PURCHASE_NOT_ISNT +index );
         }
 
         return purchases.get(index);
@@ -93,11 +84,12 @@ public class PurchaseList
 
     private boolean isIndex(int index)
     {
-        return index >= 0 && index < purchases.size()-1;
+        return index >= 0 && index < purchases.size();
     }
+
     public void setPurchase(int index, Purchase purchase)
     {
-        if(!isIndex(index))  throw new IndexOutOfBoundsException("Purchase with index " +index +" isn`t");
+        if(!isIndex(index))  throw new IndexOutOfBoundsException(Constants.PURCHASE_NOT_ISNT +index);
 
         purchases.set(index,purchase);
 
@@ -111,7 +103,7 @@ public class PurchaseList
         }
         else
         {
-            purchases.add(index, purchase);
+            purchases.set(index, purchase);
 
         }
 
@@ -124,7 +116,7 @@ public class PurchaseList
 
     public void remove(int index) throws IndexOutOfBoundsException
     {
-        if(!isIndex(index)){throw new IndexOutOfBoundsException ("Purchase with index " +index +" isn`t");}
+        if(!isIndex(index)){throw new IndexOutOfBoundsException (Constants.PURCHASE_NOT_ISNT + index);}
         purchases.remove(index);
     }
 
@@ -155,18 +147,21 @@ public class PurchaseList
 
     public void sort()
     {
-        if(comparator==null)return;
         Collections.sort(purchases, comparator);
     }
 
-    public void find(Purchase purchase)
+    public int find(Purchase purchase)
     {
-        if (comparator==null)return;
         sort();
         int position=Collections.binarySearch(purchases,purchase, comparator);
+        if(position>=0)
+        {
+            return position;
+        }
+        else
+        {
+            throw new IllegalArgumentException(Constants.IS_NOT_FOUND);
+        }
 
-        System.out.println(STRING_ELEMENT);
-        System.out.println(purchase.toString());
-        System.out.println(position>=0?FIND_IN+position+ROW:IS_NOT_FOUND);
     }
 }

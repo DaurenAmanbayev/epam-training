@@ -1,23 +1,20 @@
 package by.gsu.epamlab.model;
 
-
-import java.lang.reflect.Method;
-
 public class PriceDiscountPurchase extends Purchase
 {
-    final static String DISCOUNT="Discount";
+
     final int discount;
 
     public PriceDiscountPurchase(String name, String price, String number, String discount) throws CsvExceptions
     {
         super(name, price, number);
 
-        if (parseNumber(discount, DISCOUNT)<getPrice()*getNumber())
+        if (parseNumber(discount, Constants.DISCOUNT)<getPrice())
         {
-            this.discount = parseNumber(discount,DISCOUNT);
+            this.discount = parseNumber(discount,Constants.DISCOUNT);
         } else
         {
-            throw new CsvExceptions(DISCOUNT, CsvExceptions.StringException.NON_CORRECT);
+            throw new CsvExceptions(Constants.DISCOUNT, CsvExceptions.StringException.NON_CORRECT);
         }
     }
 
