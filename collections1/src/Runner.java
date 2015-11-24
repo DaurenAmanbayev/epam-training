@@ -1,7 +1,4 @@
-import by.gsu.epamlab.PricePurchase;
-import by.gsu.epamlab.Purchase;
-import by.gsu.epamlab.PurchaseFactory;
-import by.gsu.epamlab.PurchaseList;
+import by.gsu.epamlab.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,15 +7,13 @@ import java.util.*;
 
 public class Runner
 {
-    private enum WeekDay{
-    SUNDAY,MONDAY, TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY}
 
+    final static String FIRST_DAY="first day is ";
+    final static String LAST_DAY="last day is ";
+    final static String SEPARATOR="--------------";
+    final static String NOT_FOUND="not found";
+    final static String TOTAL_COST=" total cost= ";
 
-    final static String FIRST_PURCHASE="first";
-    final static String LAST_PURCHASE="last";
-    final static String ANY="any";
-    final static int FIRST_DAY_PURCHASE=1;
-    final static int LAST_DAY_PURCHASE=-1;
 
 
     public static void main(String[] args)
@@ -85,48 +80,80 @@ public class Runner
                 scanner.close();
             }
         }
-        printMapWithList(weekDayKey);
-        System.out.println("-----");
-
-
+        printMap(weekDayKey);
+        System.out.println(SEPARATOR);
 
         printMap(firstDayPurchase);
-        System.out.println("-----");
+        System.out.println(SEPARATOR);
 
         printMap(lastDayPurchase);
-        System.out.println("-----");
-        System.out.println("first "+ firstDayPurchase.get(BREAD_1550)+" last "+ lastDayPurchase.get(BREAD_1550));
-        System.out.println("-----");
-        System.out.println("first "+ firstDayPurchase.get(BREAD_1700));
+        System.out.println(SEPARATOR);
+
+        System.out.println(BREAD_1550);
+        System.out.println(FIRST_DAY
+                +(firstDayPurchase.get(BREAD_1550)==null?NOT_FOUND:firstDayPurchase.get(BREAD_1550))
+            +LAST_DAY
+            + (lastDayPurchase.get(BREAD_1550)==null?NOT_FOUND:lastDayPurchase.get(BREAD_1550)));
+        System.out.println(SEPARATOR);
+        System.out.println(BREAD_1700);
+        System.out.println(FIRST_DAY+
+                (firstDayPurchase.get(BREAD_1700)==null?NOT_FOUND:firstDayPurchase.get(BREAD_1700)));
+
+        PurchaseChecker checkMeat =new PurchaseChecker()
+        {
+            @Override
+            public boolean check(Map.Entry<Purchase, WeekDay> mapEntry)
+            {
+                return mapEntry.getKey().getCommodity().equals("meat");
+            }
+        };
+        PurchaseChecker checkFriday=new PurchaseChecker()
+        {
+            @Override
+            public boolean check(Map.Entry<Purchase, WeekDay> mapEntry)
+            {
+                return mapEntry.getValue().equals(WeekDay.FRIDAY);
+            }
+        };
+
+        removeFromMap(firstDayPurchase, checkMeat);
 
 
-        Iterator iterator=firstDayPurchase.entrySet().iterator();
+        System.out.println(SEPARATOR);
+        printMap(firstDayPurchase);
+
+
+        removeFromMap(lastDayPurchase,checkFriday);
+        System.out.println(SEPARATOR);
+        printMap(lastDayPurchase);
+        System.out.println(SEPARATOR);
+
+        for (Map.Entry<WeekDay,PurchaseList> entry:weekDayKey.entrySet())
+        {
+            System.out.println(entry.getKey()+ TOTAL_COST+entry.getValue().getTotalcost());
+        }
+
+
+    }
+
+    private static void removeFromMap(Map<Purchase, WeekDay> purchases, PurchaseChecker check)
+    {
+        Iterator<Map.Entry<Purchase,WeekDay>> iterator=purchases.entrySet().iterator();
         while (iterator.hasNext())
         {
-            Purchase pur=((Map.Entry<Purchase,WeekDay>)iterator.next()).getKey();
-            if(pur.equals(BREAD_1550))
+            if(check.check(iterator.next()))
             {
                 iterator.remove();
             }
         }
-
-        System.out.println("-----");
-        printMap(firstDayPurchase);
-
     }
 
-    private static void printMap(Map<Purchase,WeekDay> purchases)
+    private static void printMap(Map<?,?> purchases)
     {
-        for (Map.Entry<Purchase,WeekDay> temp:purchases.entrySet())
+        for (Map.Entry<?,?> temp:purchases.entrySet())
         {
             System.out.println(temp.getKey()+" = "+temp.getValue());
         }
     }
-    private static void printMapWithList(Map<WeekDay,PurchaseList> purchases)
-    {
-        for (Map.Entry<WeekDay,PurchaseList> temp:purchases.entrySet())
-        {
-            System.out.println(temp.getKey()+" = "+temp.getValue());
-        }
-    }
+
 }

@@ -27,6 +27,15 @@ public class PurchaseList
     {
         purchases.add(purchase);
     }
+    public int getTotalcost()
+    {
+        int result=0;
+        for (Purchase purchase:purchases)
+        {
+            result+=purchase.getCost();
+        }
+        return result;
+    }
 
     @Override
     public String toString()
