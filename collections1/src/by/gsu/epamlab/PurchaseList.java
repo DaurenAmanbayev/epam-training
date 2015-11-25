@@ -27,7 +27,8 @@ public class PurchaseList
     {
         purchases.add(purchase);
     }
-    public int getTotalcost()
+
+    public int getTotalCost()
     {
         int result=0;
         for (Purchase purchase:purchases)

@@ -2,7 +2,6 @@ import by.gsu.epamlab.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class Runner
@@ -13,6 +12,7 @@ public class Runner
     final static String SEPARATOR="--------------";
     final static String NOT_FOUND="not found";
     final static String TOTAL_COST=" total cost= ";
+    final static String DELETE_NUM_ENTRY =" Delete entry ";
 
 
 
@@ -49,25 +49,11 @@ public class Runner
                 {
                     firstDayPurchase.put(purchase,weekDay);
                 }
-                else
-                {
-                    if(firstDayPurchase.get(purchase).ordinal()>weekDay.ordinal())
-                    {
-                        firstDayPurchase.put(purchase,weekDay);
-                    }
-                }
+
                 //create map with value - last day purchase
-                if(!lastDayPurchase.containsKey(purchase))
-                {
-                    lastDayPurchase.put(purchase,weekDay);
-                }
-                else
-                {
-                    if(lastDayPurchase.get(purchase).ordinal()<weekDay.ordinal())
-                    {
-                        lastDayPurchase.put(purchase,weekDay);
-                    }
-                }
+
+                lastDayPurchase.put(purchase,weekDay);
+
             }
         } catch (FileNotFoundException e)
         {
@@ -80,13 +66,15 @@ public class Runner
                 scanner.close();
             }
         }
-        printMap(weekDayKey);
+
+
+        printMap(lastDayPurchase);
         System.out.println(SEPARATOR);
 
         printMap(firstDayPurchase);
         System.out.println(SEPARATOR);
 
-        printMap(lastDayPurchase);
+        printMap(weekDayKey);
         System.out.println(SEPARATOR);
 
         System.out.println(BREAD_1550);
@@ -107,30 +95,29 @@ public class Runner
                 return mapEntry.getKey().getCommodity().equals("meat");
             }
         };
+
+        System.out.println(SEPARATOR);
+        removeFromMap(firstDayPurchase, checkMeat);
+        printMap(firstDayPurchase);
+
         PurchaseChecker checkFriday=new PurchaseChecker()
         {
             @Override
             public boolean check(Map.Entry<Purchase, WeekDay> mapEntry)
             {
-                return mapEntry.getValue().equals(WeekDay.FRIDAY);
+                return mapEntry.getValue()==(WeekDay.FRIDAY);
             }
         };
 
-        removeFromMap(firstDayPurchase, checkMeat);
-
-
         System.out.println(SEPARATOR);
-        printMap(firstDayPurchase);
-
-
         removeFromMap(lastDayPurchase,checkFriday);
-        System.out.println(SEPARATOR);
         printMap(lastDayPurchase);
+
         System.out.println(SEPARATOR);
 
         for (Map.Entry<WeekDay,PurchaseList> entry:weekDayKey.entrySet())
         {
-            System.out.println(entry.getKey()+ TOTAL_COST+entry.getValue().getTotalcost());
+            System.out.println(entry.getKey()+ TOTAL_COST+entry.getValue().getTotalCost());
         }
 
 
@@ -139,13 +126,17 @@ public class Runner
     private static void removeFromMap(Map<Purchase, WeekDay> purchases, PurchaseChecker check)
     {
         Iterator<Map.Entry<Purchase,WeekDay>> iterator=purchases.entrySet().iterator();
+        int count=0;
         while (iterator.hasNext())
         {
             if(check.check(iterator.next()))
             {
                 iterator.remove();
+                count++;
             }
         }
+        System.out.println(DELETE_NUM_ENTRY+count);
+
     }
 
     private static void printMap(Map<?,?> purchases)
