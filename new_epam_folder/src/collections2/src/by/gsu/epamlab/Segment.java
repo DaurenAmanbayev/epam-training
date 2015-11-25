@@ -74,4 +74,12 @@ public class Segment implements Comparable<Segment>
         int result=(int)Math.round(length*X1);
         return result;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Segment{" +
+                "length=" + length +
+                '}';
+    }
 }

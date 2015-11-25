@@ -1,10 +1,10 @@
 package collections2.src.by.gsu.epamlab;
 
 
-public class SegmentAndItsNumber
+public class SegmentAndItsNumber implements Comparable<SegmentAndItsNumber>
 {
     private Segment segment;
-    private int number;
+    private int number=0;
 
     public SegmentAndItsNumber(Segment segment)
     {
@@ -33,5 +33,9 @@ public class SegmentAndItsNumber
         return "("+segment.getLength()+ " ; "+ number+" )";
     }
 
-
+    @Override
+    public int compareTo(SegmentAndItsNumber t)
+    {
+        return t.getSegment().compareTo(segment);
+    }
 }
