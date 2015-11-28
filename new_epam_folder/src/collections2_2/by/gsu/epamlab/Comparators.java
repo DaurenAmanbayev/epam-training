@@ -4,7 +4,7 @@ package collections2_2.by.gsu.epamlab;
 import java.util.Comparator;
 
 public class Comparators
-{
+{//TODO
     public static class CompareNumLenToNum implements Comparator<NumLen>
     {
         @Override

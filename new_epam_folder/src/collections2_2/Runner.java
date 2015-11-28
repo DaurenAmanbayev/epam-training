@@ -7,7 +7,9 @@ import collections2_2.by.gsu.epamlab.NumLen;
 import java.util.*;
 
 public class Runner
-{final static int COUNT=100000;
+{//TODO
+
+    final static int COUNT=100000;
     public static void main(String[] args)
     {
         List<Integer> inputList=sortedNum();

@@ -2,7 +2,7 @@ package collections2_2.by.gsu.epamlab;
 
 
 public class NumLen implements Comparable<NumLen>
-{
+{//TODO
     private int num;
     private int len;
 
