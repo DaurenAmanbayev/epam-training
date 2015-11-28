@@ -7,29 +7,22 @@ import collections2.src.by.gsu.epamlab.SegmentAndItsNumber;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Runner
 {
-    final static String PATTERN="\\s*\\(\\s*(.*)\\s*;\\s*(.*)\\s*\\)\\s*\\(\\s*(.*)\\s*;\\s*(.*)\\s*\\)";
+    final static String PATTERN= "[\\s(;)]+";
     final static String ARRAY_LIST="ArrayList";
     final static String TREE_SET="TreeSet";
 
 
     public static void main(String[] args)
     {
-        final String FILE_NAME="src/in.txt";
-        final int PATTERN_GROUP_1=1;
-        final int PATTERN_GROUP_2=2;
-        final int PATTERN_GROUP_3=3;
-        final int PATTERN_GROUP_4=4;
-
-        Pattern pattern=Pattern.compile(PATTERN);
+        final String FILE_NAME="src/collections2/src/in.txt";
         Scanner scanner=null;
 
         List<SegmentAndItsNumber> listOfSegments=new ArrayList<>();
-        Set<SegmentAndItsNumber> treeSetOfSegments=new TreeSet<>(new Comparators.CompareForTreeSet());
+        NavigableSet<SegmentAndItsNumber> treeSetOfSegments=new TreeSet<>(new Comparators.CompareForTreeSet());
 
 
         try
@@ -38,30 +31,32 @@ public class Runner
             while (scanner.hasNext())
             {
                 String loadRow=scanner.nextLine();
-                Matcher matcher=pattern.matcher(loadRow);
-                if(matcher.matches())
-                {
-                    double X1=Double.parseDouble(matcher.group(PATTERN_GROUP_1).trim());
-                    double Y1=Double.parseDouble(matcher.group(PATTERN_GROUP_2).trim());
-                    double X2=Double.parseDouble(matcher.group(PATTERN_GROUP_3).trim());
-                    double Y2=Double.parseDouble(matcher.group(PATTERN_GROUP_4).trim());
-                    Segment segment=new Segment(X1,X2,Y1,Y2);
-                    SegmentAndItsNumber segmentAndItsNumber=new SegmentAndItsNumber(segment);
-                    SegmentAndItsNumber segmentForTreeSet=new SegmentAndItsNumber(segment);
+                String[] loadRows=loadRow.split(PATTERN);
+                double X1=Double.parseDouble((loadRows[1]).trim());
+                double Y1=Double.parseDouble((loadRows[2]).trim());
+                double X2=Double.parseDouble((loadRows[3]).trim());
+                double Y2=Double.parseDouble((loadRows[4]).trim());
+                Segment segment=new Segment(X1,X2,Y1,Y2);
 
-                    int found=Collections.binarySearch(listOfSegments, segmentAndItsNumber,
-                            new Comparators.CompareSegmentNumberToLength());
-                    if(found>=0)
-                    {
-                        listOfSegments.get(found).incrementSegment();
-                    }
-                    else
-                    {
-                        listOfSegments.add(segmentAndItsNumber);
-                        Collections.sort(listOfSegments,new Comparators.CompareSegmentNumberToLength());
-                    }
-                    treeSetOfSegments.add(segmentForTreeSet);
+                SegmentAndItsNumber segmentAndItsNumber=new SegmentAndItsNumber(segment);
+
+                SegmentAndItsNumber segmentForTreeSet=new SegmentAndItsNumber(segment);
+
+                int found=Collections.binarySearch(listOfSegments, segmentAndItsNumber,
+                        new Comparators.CompareSegmentNumberToLength());
+                if(found>=0)
+                {
+                    listOfSegments.get(found).incrementSegment();
                 }
+                else
+                {
+                    listOfSegments.add(-found-1,segmentAndItsNumber);
+
+                }
+
+                treeSetOfSegments.add(segmentForTreeSet);
+
+
             }
             Collections.sort(listOfSegments,new Comparators.CompareSegmentNumberToNumber());
 
@@ -70,8 +65,11 @@ public class Runner
             printList(listOfSegments);
 
             System.out.println(TREE_SET);
+            List<SegmentAndItsNumber> rrr=new ArrayList<>(treeSetOfSegments.size());
+            rrr.addAll(treeSetOfSegments);
+            Collections.sort(rrr,new Comparators.CompareSegmentNumberToNumber());
 
-            printSet(treeSetOfSegments);
+            printList(rrr);
 
         } catch (FileNotFoundException e)
         {
@@ -93,11 +91,5 @@ public class Runner
         }
     }
 
-    private static void printSet(Set<SegmentAndItsNumber> set)
-    {
-        for (SegmentAndItsNumber treeSetOfSegment : set)
-        {
-            System.out.println(treeSetOfSegment);
-        }
-    }
+
 }
