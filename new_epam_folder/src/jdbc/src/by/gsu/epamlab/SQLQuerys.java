@@ -11,10 +11,10 @@ import java.util.List;
 public class SQLQuerys implements AutoCloseable
 {
     private final static String SELECT_MY_TABLE_COUNT_AND_GROUP=
-            "SELECT round(abs(x1-x2)+0.01) as len, count(round(abs(x1-x2)+0.01)) as cnt" +
-                    " FROM my_table group by len order by len desc; ";
+            "SELECT ROUND(ABS(x1-x2)+0.01) as len, COUNT(*) as cnt" +
+                    " FROM my_table GROUP BY len ORDER BY len DESC; ";
     private final static String DELETE_ALL_FROM_FREQUENCIES=
-            "Delete from frequencies";
+            "DELETE FROM frequencies";
     private final static String INSERT_INTO_FREQUENCIES =
             "INSERT INTO frequencies(Len, Num) VALUES(?, ?)";
     private final static String SELECT_FREQUENCIES_WITH_PARAMETER = "SELECT * FROM frequencies WHERE len>num";
@@ -49,15 +49,15 @@ public class SQLQuerys implements AutoCloseable
         }
         finally
         {
-            if(resultSet!=null)
+            try
             {
-                try
+                if(resultSet!=null && resultSet.isClosed())
                 {
                     resultSet.close();
-                } catch (SQLException e)
-                {
-                    e.printStackTrace();
                 }
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
             }
         }
 
@@ -124,21 +124,19 @@ public class SQLQuerys implements AutoCloseable
         }
         finally
         {
-            if(resultSet!=null)
+            try
             {
-                try
+                if(resultSet!=null && resultSet.isClosed())
                 {
                     resultSet.close();
-                } catch (SQLException e)
-                {
-                    e.printStackTrace();
                 }
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
             }
         }
         return numLens;
     }
-
-
 
     @Override
     public void close() throws Exception

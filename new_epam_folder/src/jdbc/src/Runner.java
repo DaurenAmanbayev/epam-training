@@ -17,8 +17,7 @@ public class Runner
     public static void main(String[] args)
     {
 
-        List<NumLen> numLens=new ArrayList<>();
-        Connection c=null;
+        List<NumLen> numLens;
 
        try(SQLQuerys sqlQuerys=new SQLQuerys(ConnectionDb.getConnection()))
        {
@@ -27,7 +26,9 @@ public class Runner
            {
                System.out.println(tmp);
            }
-           System.out.println(sqlQuerys.deleteAllFrequencies());
+
+           System.out.println("Delete all from frequencies is "+sqlQuerys.deleteAllFrequencies());
+
            for(NumLen tmp:numLens)
            {
                if(!sqlQuerys.insertIntoFrequencies(tmp))
