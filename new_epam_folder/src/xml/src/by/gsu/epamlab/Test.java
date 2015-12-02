@@ -11,7 +11,7 @@ public class Test
     private Date date;
     private int mark;
     private SimpleDateFormat dateInput =new SimpleDateFormat("yyyy-mm-dd");
-    private SimpleDateFormat dateOutput =new SimpleDateFormat("dd-mm-yyyy");
+    private SimpleDateFormat dateOutput =new SimpleDateFormat("dd.mm.yyyy");
     public Test(String name, String date, String mark)
     {
 

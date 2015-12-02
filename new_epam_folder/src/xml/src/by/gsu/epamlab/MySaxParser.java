@@ -45,13 +45,7 @@ public class MySaxParser extends DefaultHandler
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
-        if(!isNameSpace)
-        {
-            NAME_SPACE =attributes.getLocalName(1).replace("xmlns:","")+":";
-            isNameSpace=true;
-        }
-        String tag=qName.replaceAll(NAME_SPACE,"");
-        thisElement=tag.toUpperCase();
+        thisElement=localName.toUpperCase();
         switch (Tags.valueOf(thisElement))
         {
             case STUDENT:
@@ -67,9 +61,9 @@ public class MySaxParser extends DefaultHandler
                     Test test=new Test(attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
                     result.addTest(test);
                 }
+                break;
             }
         }
-
 
 
     }
@@ -86,9 +80,7 @@ public class MySaxParser extends DefaultHandler
             {
                 if(isLogin){break;}
                 login= new String(ch,start,length);
-                result.setLogin(login);
                 isLogin=true;
-
                 break;
             }
         }
@@ -97,8 +89,7 @@ public class MySaxParser extends DefaultHandler
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
-        String tag=qName.replaceAll(NAME_SPACE,"");
-        String stopElement=tag.toUpperCase();
+        String stopElement=localName.toUpperCase();
         if(Tags.valueOf(stopElement).equals(Tags.STUDENT))
         {
             isLogin=false;
