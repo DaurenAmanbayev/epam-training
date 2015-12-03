@@ -11,28 +11,22 @@ public class Test
     private String name;
     private Date date;
     private int mark;
-    private SimpleDateFormat dateInput =new SimpleDateFormat("yyyy-mm-dd");
-    private SimpleDateFormat dateOutput =new SimpleDateFormat("dd.mm.yyyy");
+    private final static SimpleDateFormat INPUT_DATE_FORMAT =new SimpleDateFormat("yyyy-mm-dd");
+    private final static SimpleDateFormat OUTPUT_DATE_FORMAT =new SimpleDateFormat("dd.mm.yyyy");
 
-    public Test(String login,String name, String date, String mark)
+    public Test(String login,String name, String date, String mark) throws ParseException
     {
 
         String[] markSplit=mark.split("\\.");
         this.login=login;
         this.name = name;
-        try
-        {
-            this.date = dateInput.parse(date);
-        } catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
+        this.date = INPUT_DATE_FORMAT.parse(date);
         this.mark = Integer.parseInt(markSplit[0]+markSplit[1]);
     }
 
     @Override
     public String toString()
     {
-        return login+";"+name+";"+ dateOutput.format(this.date)+";"+(mark/10.0);
+        return login+";"+name+";"+ OUTPUT_DATE_FORMAT.format(this.date)+";"+(mark/10.0);
     }
 }

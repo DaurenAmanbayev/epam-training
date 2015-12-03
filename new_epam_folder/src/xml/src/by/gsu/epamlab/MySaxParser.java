@@ -5,6 +5,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,15 @@ public class MySaxParser extends DefaultHandler
             {
                 if(isStudent)
                 {
-                    Test test=new Test(login,attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
-                    results.add(test);
+                    try
+                    {
+                        Test test = new Test(login,attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
+                        results.add(test);
+                    } catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
             }
@@ -73,9 +81,11 @@ public class MySaxParser extends DefaultHandler
         {
             case LOGIN :
             {
-                if(isLogin){break;}
-                login= new String(ch,start,length);
-                isLogin=true;
+                if(!isLogin)
+                {
+                    login = new String(ch, start, length);
+                    isLogin = true;
+                }
                 break;
             }
         }
