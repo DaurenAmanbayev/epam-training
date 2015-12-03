@@ -5,7 +5,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import xml.src.by.gsu.epamlab.MySaxParser;
-import xml.src.by.gsu.epamlab.Result;
+import xml.src.by.gsu.epamlab.Test;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +20,8 @@ public class Runner
             reader.setContentHandler(handler);
 
             reader.parse("src/xml/students.xml");
-            List<Result> results=handler.getResults();
-            for(Result temp:results)
+            List<Test> results=handler.getResults();
+            for(Test temp:results)
             {
                 System.out.println(temp);
             }

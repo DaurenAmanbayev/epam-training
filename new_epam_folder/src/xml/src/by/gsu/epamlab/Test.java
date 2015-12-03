@@ -7,15 +7,18 @@ import java.util.Date;
 
 public class Test
 {
+    private String login;
     private String name;
     private Date date;
     private int mark;
     private SimpleDateFormat dateInput =new SimpleDateFormat("yyyy-mm-dd");
     private SimpleDateFormat dateOutput =new SimpleDateFormat("dd.mm.yyyy");
-    public Test(String name, String date, String mark)
+
+    public Test(String login,String name, String date, String mark)
     {
 
         String[] markSplit=mark.split("\\.");
+        this.login=login;
         this.name = name;
         try
         {
@@ -30,6 +33,6 @@ public class Test
     @Override
     public String toString()
     {
-        return name+";"+ dateOutput.format(this.date)+";"+(mark/10.0)+"\n";
+        return login+";"+name+";"+ dateOutput.format(this.date)+";"+(mark/10.0);
     }
 }

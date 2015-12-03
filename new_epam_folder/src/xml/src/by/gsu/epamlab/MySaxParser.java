@@ -13,12 +13,9 @@ public class MySaxParser extends DefaultHandler
     private enum Tags
     {RESULTS,STUDENT,LOGIN,TESTS,TEST}
 
-    private boolean isNameSpace;
     private boolean isStudent;
     private boolean isLogin;
-    private String NAME_SPACE;
-    private List<Result> results;
-    private Result result;
+    private List<Test> results;
     private String login;
     private String thisElement;
 
@@ -26,12 +23,11 @@ public class MySaxParser extends DefaultHandler
     {
         super();
         this.isStudent=false;
-        this.isNameSpace =false;
         this.isLogin=false;
         results=new ArrayList<>();
     }
 
-    public List<Result> getResults()
+    public List<Test> getResults()
     {
         return results;
     }
@@ -51,15 +47,14 @@ public class MySaxParser extends DefaultHandler
             case STUDENT:
             {
                 isStudent=true;
-                result=new Result();
                 break;
             }
             case TEST:
             {
                 if(isStudent)
                 {
-                    Test test=new Test(attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
-                    result.addTest(test);
+                    Test test=new Test(login,attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
+                    results.add(test);
                 }
                 break;
             }
@@ -89,13 +84,15 @@ public class MySaxParser extends DefaultHandler
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
-        String stopElement=localName.toUpperCase();
-        if(Tags.valueOf(stopElement).equals(Tags.STUDENT))
+        Tags stopElement=Tags.valueOf(localName.toUpperCase());
+        switch (stopElement)
         {
-            isLogin=false;
-            result.setLogin(login);
-            results.add(result);
-            isStudent=false;
+            case STUDENT:
+            {
+                isLogin=false;
+                isStudent=false;
+                break;
+            }
         }
 
     }
