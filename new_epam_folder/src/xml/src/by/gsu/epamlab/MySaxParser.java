@@ -42,6 +42,9 @@ public class MySaxParser extends DefaultHandler
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
+        final int NAME=0;
+        final int DATE=1;
+        final int MARK=2;
         thisElement=localName.toUpperCase();
         switch (Tags.valueOf(thisElement))
         {
@@ -56,7 +59,7 @@ public class MySaxParser extends DefaultHandler
                 {
                     try
                     {
-                        Test test = new Test(login,attributes.getValue(0),attributes.getValue(1),attributes.getValue(2));
+                        Test test = new Test(login,attributes.getValue(NAME),attributes.getValue(DATE),attributes.getValue(MARK));
                         results.add(test);
                     } catch (ParseException e)
                     {

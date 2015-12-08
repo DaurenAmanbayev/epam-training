@@ -1,4 +1,4 @@
-package jdbc.src.by.gsu.epamlab;
+package testJavaSE.src.by.gsu.epamlab;
 
 import jdbc.src.Runner;
 
@@ -25,7 +25,7 @@ public class ConnectionDb implements AutoCloseable
     private ConnectionDb() throws ClassNotFoundException, SQLException
     {
 
-        ResourceBundle resourcesBundle=ResourceBundle.getBundle(Runner.RESOURCE_NAME);
+        ResourceBundle resourcesBundle=ResourceBundle.getBundle(testJavaSE.src.Runner.RESOURCE_NAME);
         Enumeration<String> resourcesKey=resourcesBundle.getKeys();
         while (resourcesKey.hasMoreElements())
         {

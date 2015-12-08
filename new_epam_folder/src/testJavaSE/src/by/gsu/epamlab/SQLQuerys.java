@@ -1,18 +1,21 @@
-package jdbc.src.by.gsu.epamlab;
+package testJavaSE.src.by.gsu.epamlab;
 
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SQLQuerys implements AutoCloseable
 {
-    private final static String SELECT_MY_TABLE_COUNT_AND_GROUP=
-            "SELECT ROUND(ABS(x1-x2)+0.01) as len, COUNT(*) as cnt" +
-                    " FROM my_table GROUP BY len ORDER BY len DESC; ";
+
+    private final static String GET_TEST_ID="SELECT idTest FROM tests where name=(?)";
+    private final static String CREATE_NEW_TEST="INSERT INTO idTest (name) VALUES (?)";
+
+    private final static String CREATE_NEW_RESULT="INSERT INTO results" +
+            "(loginId, testId, dat, mark) VALUES (?,?,?,?)";
+
+
     private final static String DELETE_ALL_FROM_FREQUENCIES=
             "DELETE FROM frequencies";
     private final static String INSERT_INTO_FREQUENCIES =
@@ -33,7 +36,56 @@ public class SQLQuerys implements AutoCloseable
         }
     }
 
-    public List<NumLen> selectFromMyTable()
+    public static int getFieldFromTable(String table, String field, String criteria, String name) throws SQLException
+    {
+        int loginId=0;
+        ResultSet resultSet=null;
+        final  String GET_FIELD_FROM_TABLE ="SELECT "+field+" FROM " +table+" where "+criteria+"=(?)";
+
+        try(PreparedStatement preparedStatement=connection.prepareStatement(GET_FIELD_FROM_TABLE))
+        {
+            preparedStatement.setString(1,name);
+            resultSet=preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                loginId=resultSet.getInt(1);
+            }
+        }
+        finally
+        {
+            if(resultSet!=null)
+            {
+                resultSet.close();
+            }
+
+        }
+        return loginId;
+    }
+
+    public boolean addNewRowInToTable(String table, String field, String value) throws SQLException
+    {
+        boolean isCreate=false;
+        final  String CREATE_NEW_LOGIN="INSERT INTO "+table+" ("+field+") VALUES (?)";
+
+        int count;
+        try(PreparedStatement preparedStatement=connection.prepareStatement(CREATE_NEW_LOGIN))
+        {
+            preparedStatement.setString(1,value);
+            count=preparedStatement.executeUpdate();
+            if(count>0)
+            {
+                isCreate=true;
+            }
+        }
+
+        return isCreate;
+
+    }
+
+
+
+    /*public List<NumLen> selectFromMyTable()
     {
         List<NumLen> result=new ArrayList<>();
         ResultSet resultSet=null;
@@ -142,7 +194,7 @@ public class SQLQuerys implements AutoCloseable
             }
         }
         return numLens;
-    }
+    }*/
 
     @Override
     public void close() throws Exception

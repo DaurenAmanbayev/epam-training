@@ -12,14 +12,16 @@ import java.util.List;
 
 public class Runner
 {
+    final static String FILE_NAME="src/students.xml";
     public static void main(String[] args)
     {
+
         try {
             XMLReader reader = XMLReaderFactory.createXMLReader();
             MySaxParser handler = new MySaxParser();
             reader.setContentHandler(handler);
 
-            reader.parse("src/xml/students.xml");
+            reader.parse(FILE_NAME);
             List<Test> results=handler.getResults();
             for(Test temp:results)
             {

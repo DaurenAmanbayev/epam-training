@@ -1,8 +1,9 @@
 package jdbc.src.by.gsu.epamlab;
 
 
-public class NumLen implements Comparable<NumLen>
-{//TODO
+public class NumLen
+{
+    private static String SEPARATOR=";";
     private int num;
     private int len;
 
@@ -36,36 +37,7 @@ public class NumLen implements Comparable<NumLen>
     @Override
     public String toString()
     {
-        return "("+len+";"+num+")";
+        return len+SEPARATOR+num;
     }
 
-    @Override
-    public int compareTo(NumLen t)
-    {
-        int diff=len-t.getLen();
-        if(diff==0){t.increment();}
-        return diff;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (!(o instanceof NumLen)) return false;
-
-        NumLen numLen = (NumLen) o;
-
-        if (len != numLen.len) return false;
-        numLen.increment();
-        return true;
-
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int result = num;
-        result = 31 * result + len;
-        return result;
-    }
 }
