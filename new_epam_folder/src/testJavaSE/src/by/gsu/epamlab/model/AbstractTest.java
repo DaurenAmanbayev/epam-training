@@ -49,8 +49,6 @@ public abstract class AbstractTest
         return mark;
     }
 
-    public abstract void setMark(String mark);
-
     protected String fieldToString()
     {
         final String SEPARATOR=";";

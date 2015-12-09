@@ -22,6 +22,7 @@ public class Runner
             reader.setContentHandler(handler);
 
             reader.parse(FILE_NAME);
+
             List<Test> results=handler.getResults();
             for(Test temp:results)
             {

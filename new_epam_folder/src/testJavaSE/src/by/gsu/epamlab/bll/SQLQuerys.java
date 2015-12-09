@@ -90,7 +90,7 @@ public class SQLQuerys implements AutoCloseable
 
         if((idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getLogin()))<=0)
         {
-            addNewRowInToTable(LOGIN, NAME,test.getName());
+            addNewRowInToTable(LOGIN, NAME,test.getLogin());
             idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getLogin());
         }
 
@@ -98,6 +98,7 @@ public class SQLQuerys implements AutoCloseable
         {
             addNewRowInToTable(TEST, NAME,test.getName());
             idTest=getFieldFromTable(TEST, ID_TEST, NAME,test.getName());
+
         }
         try(PreparedStatement preparedStatement=connection.prepareStatement(CREATE_NEW_RESULT))
         {

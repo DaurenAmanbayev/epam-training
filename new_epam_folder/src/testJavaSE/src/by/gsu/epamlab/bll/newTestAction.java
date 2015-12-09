@@ -5,5 +5,5 @@ import java.sql.SQLException;
 
 public interface NewTestAction
 {
-    void setAction(String[] test) throws SQLException;
+    void setAction(String test) throws SQLException;
 }

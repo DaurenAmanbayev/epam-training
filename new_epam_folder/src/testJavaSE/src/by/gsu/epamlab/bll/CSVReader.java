@@ -1,5 +1,7 @@
 package testJavaSE.src.by.gsu.epamlab.bll;
 
+import testJavaSE.src.by.gsu.epamlab.model.Reader;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.SQLException;
@@ -25,8 +27,7 @@ public class CSVReader
             while (scanner.hasNext())
             {
                 String readRow=scanner.nextLine();
-                String[] readRows=readRow.split(SEPARATOR);
-                newTestAction.setAction(readRows);
+                newTestAction.setAction(readRow);
             }
 
         }

@@ -27,7 +27,7 @@ public class FabricTest
                 @Override
                 AbstractTest getTest(String login, String test, Date date, String markStr)
                 {
-                    int mark=Integer.parseInt(markStr);
+                    int mark=(int)(Double.parseDouble(markStr)*10);
                     return new TestTask2(login,test,date,mark);
                 }
             },
@@ -36,7 +36,7 @@ public class FabricTest
                 @Override
                 AbstractTest getTest(String login, String test, Date date, String markStr)
                 {
-                    int mark=Integer.parseInt(markStr);
+                    int mark=(int)Double.parseDouble(markStr)*10;
                     return new TestTask3(login,test,date,mark);
                 }
             };
@@ -44,7 +44,6 @@ public class FabricTest
     }
     public static AbstractTest getTest(String typeTest,String login,String test,Date date,String mark)
     {
-
         SelectTest selectTest= SelectTest.valueOf(typeTest);
         return selectTest.getTest(login, test, date, mark);
     }

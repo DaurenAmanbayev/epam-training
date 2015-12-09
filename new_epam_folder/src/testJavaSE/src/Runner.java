@@ -3,6 +3,7 @@ package testJavaSE.src;
 
 
 import testJavaSE.src.by.gsu.epamlab.bll.*;
+import testJavaSE.src.by.gsu.epamlab.bll.MySaxParser;
 import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
 
 import java.io.FileNotFoundException;
@@ -16,6 +17,9 @@ import java.sql.Date;
 public class Runner
 {
     public static String RESOURCE_NAME="ConnectionDb";
+    public static String TEST_VERSION ="TASK2";
+    //public static String FILE_NAME="src/in.csv";
+    public static String FILE_NAME="src/xml/students.xml";
 
     public static void main(String[] args) throws FileNotFoundException
     {
@@ -25,34 +29,17 @@ public class Runner
 
             final SQLQuerys sqlQuerys=new SQLQuerys(connection);
 
-            Map<String,Double> rrr=new HashMap<>();
+            ReaderFromFileAndSaveToDB reader=new ReaderFromFileAndSaveToDB(sqlQuerys,FILE_NAME,TEST_VERSION);
 
-            CSVReader csvReader=new CSVReader(new NewTestAction()
-            {
-                @Override
-                public void setAction(String[] test) throws SQLException
-                {
-                    AbstractTest test1=FabricTest.getTest("TASK2",test[0],test[1],Date.valueOf(test[2]),test[3]);
+            reader.readAndSave();
 
-                    if(!sqlQuerys.addNewTestResult(test1))
-                    {
-                        System.out.println("bad add");
-                    }
-                }
-            });
-
-            //csvReader.readFromFile("src/in.csv");
-
-            List<AbstractTest> listMonth=sqlQuerys.getResultTestAtCurrentMonth("TASK1");
+            List<AbstractTest> listMonth=sqlQuerys.getResultTestAtCurrentMonth(TEST_VERSION);
             for(AbstractTest tmp:listMonth)
             {
                 System.out.println(tmp);
             }
 
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e)
+        } catch (SQLException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }

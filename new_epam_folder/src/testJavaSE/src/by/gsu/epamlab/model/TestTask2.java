@@ -14,12 +14,6 @@ public class TestTask2 extends AbstractTest
     }
 
     @Override
-    public void setMark(String mark)
-    {
-        this.mark=Integer.parseInt(mark);
-    }
-
-    @Override
     public String toString()
     {
         return fieldToString()+(double)mark/10;

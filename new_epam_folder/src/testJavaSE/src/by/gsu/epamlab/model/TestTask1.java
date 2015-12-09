@@ -13,13 +13,6 @@ public class TestTask1 extends AbstractTest
         super(login, name, date, mark);
     }
 
-
-    @Override
-    public void setMark(String mark)
-    {
-        this.mark=Integer.parseInt(mark);
-    }
-
     @Override
     public String toString()
     {
