@@ -16,33 +16,30 @@ public class FabricTest
         TASK1
                 {
                     @Override
-                    AbstractTest getTest(String login, String test, Date date, String markStr)
+                    AbstractTest getTest(String login, String test, Date date, int mark)
                     {
-                        int mark=Integer.parseInt(markStr);
                         return new TestTask1(login,test,date,mark);
                     }
                 },
         TASK2
             {
                 @Override
-                AbstractTest getTest(String login, String test, Date date, String markStr)
+                AbstractTest getTest(String login, String test, Date date, int mark)
                 {
-                    int mark=(int)(Double.parseDouble(markStr)*10);
                     return new TestTask2(login,test,date,mark);
                 }
             },
         TASK3
             {
                 @Override
-                AbstractTest getTest(String login, String test, Date date, String markStr)
+                AbstractTest getTest(String login, String test, Date date, int mark)
                 {
-                    int mark=(int)Double.parseDouble(markStr)*10;
                     return new TestTask3(login,test,date,mark);
                 }
             };
-        abstract AbstractTest getTest(String login, String test, Date date,String mark);
+        abstract AbstractTest getTest(String login, String test, Date date,int mark);
     }
-    public static AbstractTest getTest(String typeTest,String login,String test,Date date,String mark)
+    public static AbstractTest getTest(String typeTest,String login,String test,Date date,int mark)
     {
         SelectTest selectTest= SelectTest.valueOf(typeTest);
         return selectTest.getTest(login, test, date, mark);

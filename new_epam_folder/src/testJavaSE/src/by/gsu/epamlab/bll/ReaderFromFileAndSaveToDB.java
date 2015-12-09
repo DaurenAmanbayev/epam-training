@@ -35,7 +35,8 @@ public class ReaderFromFileAndSaveToDB
             public void setAction(String test) throws SQLException
             {
                 String[] splitTest=test.split(";");
-                AbstractTest test1=FabricTest.getTest(testVersion,splitTest[0],splitTest[1], Date.valueOf(splitTest[2]),splitTest[3]);
+                int mark=(int)(Double.parseDouble(splitTest[3])*10);
+                AbstractTest test1=FabricTest.getTest(testVersion,splitTest[0],splitTest[1], Date.valueOf(splitTest[2]),mark);
                 if(!sqlQuerys.addNewTestResult(test1))
                 {
                     System.out.println("bad add");
@@ -67,7 +68,8 @@ public class ReaderFromFileAndSaveToDB
             for(String string:xmlToString)
             {
                 String[] strings=string.split(";");
-                AbstractTest test=  FabricTest.getTest(testVersion,strings[0],strings[1], Date.valueOf(strings[2]),strings[3]);
+                int mark=(int)(Double.parseDouble(strings[3])*10);
+                AbstractTest test=  FabricTest.getTest(testVersion,strings[0],strings[1], Date.valueOf(strings[2]),mark);
                 sqlQuerys.addNewTestResult(test);
             }
 

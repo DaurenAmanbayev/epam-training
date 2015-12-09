@@ -175,7 +175,7 @@ public class SQLQuerys implements AutoCloseable
                 String login=resultSet.getString(1);
                 String test=resultSet.getString(2);
                 Date date=resultSet.getDate(3);
-                String mark=resultSet.getString(4);
+                int mark=resultSet.getInt(4);
                 AbstractTest testIn=FabricTest.getTest(typeOfTest,login,test,date,mark);
                 result.add(testIn);
             }

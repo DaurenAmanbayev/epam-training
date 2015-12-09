@@ -17,9 +17,9 @@ import java.sql.Date;
 public class Runner
 {
     public static String RESOURCE_NAME="ConnectionDb";
-    public static String TEST_VERSION ="TASK2";
-    //public static String FILE_NAME="src/in.csv";
-    public static String FILE_NAME="src/xml/students.xml";
+    public static String TEST_VERSION ="TASK1";
+    public static String FILE_NAME="src/in.csv";
+    //public static String FILE_NAME="src/xml/students.xml";
 
     public static void main(String[] args) throws FileNotFoundException
     {
