@@ -6,6 +6,7 @@ import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +38,18 @@ public class Runner
 
             List<AbstractTest> listMonth=sqlQuerys.getResultTestAtCurrentMonth(TEST_VERSION);
 
-
             for(AbstractTest tmp:listMonth)
             {
                 System.out.println(tmp);
+            }
+
+            int index=listMonth.size()-1;
+            Date latestDate=listMonth.get(index).getDate();
+            System.out.println("\nTests at "+latestDate+":\n");
+            while (listMonth.get(index).getDate().equals(latestDate))
+            {
+                System.out.println(listMonth.get(index));
+                index--;
             }
 
 
