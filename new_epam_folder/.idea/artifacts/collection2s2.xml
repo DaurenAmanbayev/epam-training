@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="collection2s2">
-    <output-path>$PROJECT_DIR$/out/artifacts/collection2s2</output-path>
-    <root id="archive" name="collection2s2.jar">
-      <element id="dir-copy" path="$PROJECT_DIR$/src/collections2/src" />
-    </root>
-  </artifact>
-</component>

@@ -1,9 +1,9 @@
 package testJavaSE.src.by.gsu.epamlab.model;
 
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public abstract class AbstractTest
 {
@@ -28,14 +28,6 @@ public abstract class AbstractTest
         this.mark = mark;
     }
 
-    public AbstractTest(String login, String name, String date) throws ParseException
-    {
-        final String DATE_IN_FORMAT="yyyy-mm-dd";
-        final  SimpleDateFormat INPUT_DATE_FORMAT =new SimpleDateFormat(DATE_IN_FORMAT);
-        this.login=login;
-        this.name = name;
-        this.date = INPUT_DATE_FORMAT.parse(date);
-    }
 
     public String getLogin()
     {
@@ -61,10 +53,8 @@ public abstract class AbstractTest
 
     protected String fieldToString()
     {
-        final String DATE_OUT_FORMAT="dd.mm.yyyy";
         final String SEPARATOR=";";
-        final  SimpleDateFormat OUTPUT_DATE_FORMAT =new SimpleDateFormat(DATE_OUT_FORMAT);
-        return login+SEPARATOR+name+SEPARATOR+ OUTPUT_DATE_FORMAT.format(this.date)+SEPARATOR;
+        return login+SEPARATOR+name+SEPARATOR+ this.date+SEPARATOR;
     }
 
     @Override

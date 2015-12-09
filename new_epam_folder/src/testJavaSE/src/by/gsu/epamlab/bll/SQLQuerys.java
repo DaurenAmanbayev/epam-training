@@ -1,13 +1,10 @@
 package testJavaSE.src.by.gsu.epamlab.bll;
 
 import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
-import testJavaSE.src.by.gsu.epamlab.model.TestTask1;
-
-import java.text.ParseException;
+import java.sql.Date;
 import java.util.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SQLQuerys implements AutoCloseable
 {
@@ -88,14 +85,13 @@ public class SQLQuerys implements AutoCloseable
         int idLogin;
         int idTest;
         int count;
-        long dateInLong=test.getDate().getTime();
-        java.sql.Date dateSQL=new java.sql.Date(dateInLong);
+        Date dateSQL=test.getDate();
 
 
-        if((idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getName()))<=0)
+        if((idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getLogin()))<=0)
         {
             addNewRowInToTable(LOGIN, NAME,test.getName());
-            idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getName());
+            idLogin=getFieldFromTable(LOGIN, ID_LOGIN, NAME,test.getLogin());
         }
 
         if((idTest=getFieldFromTable(TEST, ID_TEST, NAME,test.getName()))<=0)
@@ -161,8 +157,8 @@ public class SQLQuerys implements AutoCloseable
         List<AbstractTest> result=new LinkedList<>();
         ResultSet resultSet=null;
         final  String GET_FIELD_FROM_TABLE ="SELECT logins.name , tests.name, results.dat, results.mark" +
-                " FROM tests INNER JOIN" +
-                " (logins INNER JOIN results ON logins.idLogin = results.loginId) ON tests.idTest = results.testId" +
+                " FROM tests right JOIN" +
+                " (logins right JOIN results ON logins.idLogin = results.loginId) ON tests.idTest = results.testId" +
                 " WHERE Month(results.dat)=?" +
                 " ORDER BY results.dat;";
 
@@ -175,19 +171,10 @@ public class SQLQuerys implements AutoCloseable
 
             while (resultSet.next())
             {
-                SimpleDateFormat formats=new SimpleDateFormat("yyyy-mm-dd");
                 String login=resultSet.getString(1);
                 String test=resultSet.getString(2);
-                Date date= null;
-                try
-                {
-                    date = formats.parse(resultSet.getString(3));
-                } catch (ParseException e)
-                {
-                    e.printStackTrace();
-                }
-                //date=resultSet.getDate(3);
-                int mark=resultSet.getInt(4);
+                Date date=resultSet.getDate(3);
+                String mark=resultSet.getString(4);
                 AbstractTest testIn=FabricTest.getTest(typeOfTest,login,test,date,mark);
                 result.add(testIn);
             }

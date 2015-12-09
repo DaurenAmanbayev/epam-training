@@ -2,7 +2,8 @@ package testJavaSE.src.by.gsu.epamlab.model;
 
 import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 public class TestTask1 extends AbstractTest
 {
@@ -11,6 +12,7 @@ public class TestTask1 extends AbstractTest
     {
         super(login, name, date, mark);
     }
+
 
     @Override
     public void setMark(String mark)

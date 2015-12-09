@@ -2,48 +2,53 @@ package testJavaSE.src;
 
 
 
-import testJavaSE.src.by.gsu.epamlab.bll.FabricTest;
+import testJavaSE.src.by.gsu.epamlab.bll.*;
 import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
-import testJavaSE.src.by.gsu.epamlab.bll.ConnectionDb;
-import testJavaSE.src.by.gsu.epamlab.bll.SQLQuerys;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Date;
 
 public class Runner
 {
     public static String RESOURCE_NAME="ConnectionDb";
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
     {
         try
         {
             Connection connection= ConnectionDb.getConnection();
 
-            SQLQuerys sqlQuerys=new SQLQuerys(connection);
+            final SQLQuerys sqlQuerys=new SQLQuerys(connection);
 
             Map<String,Double> rrr=new HashMap<>();
-            /*rrr=sqlQuerys.getAvgTest();
-            for(Map.Entry<String,Double> tt:rrr.entrySet())
-            {
-                System.out.println(tt.getKey()+" -- "+tt.getValue());
-            }*/
-            List<AbstractTest> ggg=new LinkedList<>();
 
-                ggg=sqlQuerys.getResultTestAtCurrentMonth("TASK2");
-
-            for(AbstractTest gg:ggg)
+            CSVReader csvReader=new CSVReader(new NewTestAction()
             {
-                System.out.println(gg);
+                @Override
+                public void setAction(String[] test) throws SQLException
+                {
+                    AbstractTest test1=FabricTest.getTest("TASK2",test[0],test[1],Date.valueOf(test[2]),test[3]);
+
+                    if(!sqlQuerys.addNewTestResult(test1))
+                    {
+                        System.out.println("bad add");
+                    }
+                }
+            });
+
+            //csvReader.readFromFile("src/in.csv");
+
+            List<AbstractTest> listMonth=sqlQuerys.getResultTestAtCurrentMonth("TASK1");
+            for(AbstractTest tmp:listMonth)
+            {
+                System.out.println(tmp);
             }
 
-            /*int login=sqlQuerys.getFieldFromTable("logins","idLogin","name","petrov");
-            sqlQuerys.addNewRowInToTable("logins","name","petrov");*/
-            //System.out.println("k,nlknl "+login);
         } catch (SQLException e)
         {
             e.printStackTrace();
