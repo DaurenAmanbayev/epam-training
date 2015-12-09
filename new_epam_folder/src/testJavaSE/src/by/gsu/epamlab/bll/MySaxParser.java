@@ -4,48 +4,30 @@ package testJavaSE.src.by.gsu.epamlab.bll;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import testJavaSE.src.by.gsu.epamlab.model.Reader;
-import xml.src.by.gsu.epamlab.Test;
+import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MySaxParser extends DefaultHandler implements NewTestAction
+public class MySaxParser extends DefaultHandler implements CreateNewRowResults
 {
-
-
-    @Override
-    public void setAction(String test) throws SQLException
-    {
-        System.out.println("in class");
-    }
-
     private enum Tags
     {RESULTS,STUDENT,LOGIN,TESTS,TEST}
 
     private boolean isStudent;
     private boolean isLogin;
-    private List<Test> results;
     private String login;
     private String thisElement;
-    private NewTestAction newTestAction;
+    private CreateNewRowResults createNewRowResults;
 
-    public MySaxParser(NewTestAction newTestAction) throws SQLException
+    public MySaxParser(CreateNewRowResults createNewRowResults) throws SQLException
     {
         super();
         this.isStudent=false;
         this.isLogin=false;
-        results=new ArrayList<>();
-        this.newTestAction=newTestAction;
+        this.createNewRowResults = createNewRowResults;
     }
 
-    public List<Test> getResults()
-    {
-        return results;
-    }
+
 
     @Override
     public void startDocument() throws SAXException
@@ -75,7 +57,7 @@ public class MySaxParser extends DefaultHandler implements NewTestAction
                     {
                         String out=login+";"+attributes.getValue(NAME)+";"+
                         attributes.getValue(DATE)+";"+attributes.getValue(MARK);
-                        newTestAction.setAction(out);
+                        createNewRowResults.setAction(out);
                     }catch (SQLException e)
                     {
                         e.printStackTrace();
@@ -131,5 +113,9 @@ public class MySaxParser extends DefaultHandler implements NewTestAction
         super.endDocument();
     }
 
-
+    @Override
+    public void setAction(String test) throws SQLException
+    {
+        return;
+    }
 }

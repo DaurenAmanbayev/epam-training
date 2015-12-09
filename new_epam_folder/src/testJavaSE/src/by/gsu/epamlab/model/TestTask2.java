@@ -16,6 +16,7 @@ public class TestTask2 extends AbstractTest
     @Override
     public String toString()
     {
-        return fieldToString()+(double)mark/10;
+        final String POINT=".";
+        return fieldToString()+mark/10+POINT+mark%10;
     }
 }

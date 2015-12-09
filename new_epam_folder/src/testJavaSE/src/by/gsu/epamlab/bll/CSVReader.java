@@ -1,6 +1,6 @@
 package testJavaSE.src.by.gsu.epamlab.bll;
 
-import testJavaSE.src.by.gsu.epamlab.model.Reader;
+import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,16 +9,15 @@ import java.util.Scanner;
 
 public class CSVReader
 {
-    private NewTestAction newTestAction;
+    private CreateNewRowResults createNewRowResults;
 
-    public CSVReader(NewTestAction testAction)
+    public CSVReader(CreateNewRowResults testAction)
     {
-        this.newTestAction=testAction;
+        this.createNewRowResults =testAction;
     }
 
-    public  void readFromFile(String filename) throws FileNotFoundException, SQLException
+    public  void readFromFile(String filename) throws  SQLException
     {
-        final String SEPARATOR=";";
         Scanner scanner=null;
 
         try
@@ -27,9 +26,13 @@ public class CSVReader
             while (scanner.hasNext())
             {
                 String readRow=scanner.nextLine();
-                newTestAction.setAction(readRow);
+                createNewRowResults.setAction(readRow);
             }
 
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
         }
         finally
         {

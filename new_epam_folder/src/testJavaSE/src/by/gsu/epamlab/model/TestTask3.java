@@ -1,13 +1,10 @@
 package testJavaSE.src.by.gsu.epamlab.model;
 
-import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
-
 import java.sql.Date;
 
 
 public class TestTask3 extends AbstractTest
 {
-
     public TestTask3(String login, String name, Date date, int mark)
     {
         super(login, name, date, mark);
@@ -16,6 +13,16 @@ public class TestTask3 extends AbstractTest
     @Override
     public String toString()
     {
-        return fieldToString()+(double)mark/10;
+        final String POINT=".";
+        String outMark;
+        if(mark%10>0)
+        {
+            outMark=mark/10+POINT+mark%10;
+        }
+        else
+        {
+            outMark=String.valueOf( mark/10);
+        }
+        return fieldToString()+outMark;
     }
 }

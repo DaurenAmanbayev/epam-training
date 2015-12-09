@@ -5,7 +5,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
-import xml.src.by.gsu.epamlab.*;
+import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ReaderFromFileAndSaveToDB
 {
+    final static  String SEPARATOR=";";
     private final SQLQuerys sqlQuerys;
     private final String fileName;
     private final String testVersion;
@@ -29,17 +30,15 @@ public class ReaderFromFileAndSaveToDB
 
     private void readFromCSV() throws FileNotFoundException, SQLException
     {
-        CSVReader readerFile=new CSVReader(new NewTestAction()
+        CSVReader readerFile=new CSVReader(new CreateNewRowResults()
         {
             @Override
             public void setAction(String test) throws SQLException
             {
-                String[] splitTest=test.split(";");
-                int mark=(int)(Double.parseDouble(splitTest[3])*10);
-                AbstractTest test1=FabricTest.getTest(testVersion,splitTest[0],splitTest[1], Date.valueOf(splitTest[2]),mark);
-                if(!sqlQuerys.addNewTestResult(test1))
+                AbstractTest newTest = getAbstractTest(test);
+                if(!sqlQuerys.addNewTestResult(newTest))
                 {
-                    System.out.println("bad add");
+                    throw new SQLException("New row not added in to table");
                 }
             }
 
@@ -48,12 +47,16 @@ public class ReaderFromFileAndSaveToDB
         readerFile.readFromFile (fileName);
     }
 
-    private void readfromXML() throws SQLException
+
+
+    private void readFromXML() throws SQLException
     {
+
         final List<String> xmlToString=new ArrayList<>();
+
         try {
             XMLReader reader = XMLReaderFactory.createXMLReader();
-            MySaxParser handler = new MySaxParser(new NewTestAction()
+            MySaxParser handler = new MySaxParser(new CreateNewRowResults()
             {
                 @Override
                 public void setAction(String test) throws SQLException
@@ -65,12 +68,14 @@ public class ReaderFromFileAndSaveToDB
             reader.setContentHandler(handler);
 
             reader.parse(fileName);
+
             for(String string:xmlToString)
             {
-                String[] strings=string.split(";");
-                int mark=(int)(Double.parseDouble(strings[3])*10);
-                AbstractTest test=  FabricTest.getTest(testVersion,strings[0],strings[1], Date.valueOf(strings[2]),mark);
-                sqlQuerys.addNewTestResult(test);
+                AbstractTest newTest = getAbstractTest(string);
+                if(!sqlQuerys.addNewTestResult(newTest))
+                {
+                    throw new SQLException("New row not added in to table");
+                }
             }
 
         } catch (SAXException | IOException e) {
@@ -88,8 +93,22 @@ public class ReaderFromFileAndSaveToDB
         }
         if("xml".equals(extension))
         {
-            readfromXML();
+            readFromXML();
         }
 
+    }
+
+    private AbstractTest getAbstractTest(String test)
+    {
+        String[] strings=test.split(SEPARATOR);
+        final int LOGIN=0;
+        final int TEST=1;
+        final int DATE=2;
+        final int MARK=3;
+        String login=strings[LOGIN];
+        String testStr=strings[TEST];
+        Date date=Date.valueOf(strings[DATE]);
+        int mark=(int)(Double.parseDouble(strings[MARK])*10);
+        return FabricTest.getTest(testVersion,login,testStr,date,mark);
     }
 }

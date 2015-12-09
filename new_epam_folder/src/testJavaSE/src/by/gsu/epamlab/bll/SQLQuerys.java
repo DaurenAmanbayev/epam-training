@@ -14,10 +14,6 @@ public class SQLQuerys implements AutoCloseable
 
     private static Connection connection;
 
-
-
-
-
     public SQLQuerys(Connection connection) throws SQLException, ClassNotFoundException
     {
         if (SQLQuerys.connection ==null)
@@ -82,9 +78,9 @@ public class SQLQuerys implements AutoCloseable
         String LOGIN = "logins";
 
         boolean isAdd=false;
-        int idLogin;
-        int idTest;
-        int count;
+        int idLogin=0;
+        int idTest=0;
+        int count=0;
         Date dateSQL=test.getDate();
 
 
@@ -120,7 +116,7 @@ public class SQLQuerys implements AutoCloseable
     {
         ResultSet resultSet=null;
         Map<String,Double> result=new TreeMap<>();
-        final String GET_AVG_RESULT_FROM_MONTH="SELECT logins.name, Avg(results.mark) AS 'avg' " +
+        final String GET_AVG_RESULT_FROM_MONTH="SELECT logins.name, ROUND(Avg(results.mark/10),2) AS 'avg' " +
                 " FROM results INNER JOIN logins ON logins.idLogin = results.loginId " +
                 " WHERE MONTH(results.dat)=? AND YEAR(results.dat)=?" +
                 " GROUP BY results.loginId" +
