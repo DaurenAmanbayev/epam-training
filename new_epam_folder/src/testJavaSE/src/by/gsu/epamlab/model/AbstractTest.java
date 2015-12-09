@@ -1,4 +1,4 @@
-package testJavaSE.src.by.gsu.epamlab;
+package testJavaSE.src.by.gsu.epamlab.model;
 
 
 import java.text.ParseException;
@@ -18,6 +18,14 @@ public abstract class AbstractTest
         this.name = "";
         this.date = null;
         this.mark=0;
+    }
+
+    public AbstractTest(String login, String name, Date date, int mark)
+    {
+        this.login = login;
+        this.name = name;
+        this.date = date;
+        this.mark = mark;
     }
 
     public AbstractTest(String login, String name, String date) throws ParseException
@@ -42,6 +50,11 @@ public abstract class AbstractTest
     public Date getDate()
     {
         return date;
+    }
+
+    public int getMark()
+    {
+        return mark;
     }
 
     public abstract void setMark(String mark);

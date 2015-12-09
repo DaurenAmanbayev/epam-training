@@ -1,6 +1,4 @@
-package testJavaSE.src.by.gsu.epamlab;
-
-import jdbc.src.Runner;
+package testJavaSE.src.by.gsu.epamlab.bll;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
