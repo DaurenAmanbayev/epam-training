@@ -1,14 +1,10 @@
 package testJavaSE.src.by.gsu.epamlab.model;
 
-import testJavaSE.src.by.gsu.epamlab.model.AbstractTest;
-
-import java.sql.Date;
-
 
 public class TestTask1 extends AbstractTest
 {
 
-    public TestTask1(String login, String name, Date date, int mark)
+    public TestTask1(String login, String name, String  date, String  mark)
     {
         super(login, name, date, mark);
     }

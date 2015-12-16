@@ -9,14 +9,13 @@ import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderFromFileAndSaveToDB
 {
-    final static  String SEPARATOR=";";
+
     private final SQLQuerys sqlQuerys;
     private final String fileName;
     private final String testVersion;
@@ -35,10 +34,10 @@ public class ReaderFromFileAndSaveToDB
             @Override
             public void setAction(String test) throws SQLException
             {
-                AbstractTest newTest = getAbstractTest(test);
+                AbstractTest newTest = createAbstractTest(test);
                 if(!sqlQuerys.addNewTestResult(newTest))
                 {
-                    throw new SQLException("New row not added in to table");
+                    throw new SQLException("New row doesn't added in table");
                 }
             }
 
@@ -71,10 +70,11 @@ public class ReaderFromFileAndSaveToDB
 
             for(String string:xmlToString)
             {
-                AbstractTest newTest = getAbstractTest(string);
+                AbstractTest newTest = createAbstractTest(string);
+
                 if(!sqlQuerys.addNewTestResult(newTest))
                 {
-                    throw new SQLException("New row not added in to table");
+                    throw new SQLException("New row doesn't added in table");
                 }
             }
 
@@ -86,7 +86,8 @@ public class ReaderFromFileAndSaveToDB
 
     public void readAndSave() throws FileNotFoundException, SQLException
     {
-        String extension=fileName.substring(fileName.length()-3,fileName.length());
+        final int EXTENSION_LEN=3;
+        String extension=fileName.substring(fileName.length()-EXTENSION_LEN,fileName.length());
         if("csv".equals(extension))
         {
             readFromCSV();
@@ -98,8 +99,9 @@ public class ReaderFromFileAndSaveToDB
 
     }
 
-    private AbstractTest getAbstractTest(String test)
+    private AbstractTest createAbstractTest(String test)
     {
+        final   String SEPARATOR=";";
         String[] strings=test.split(SEPARATOR);
         final int LOGIN=0;
         final int TEST=1;
@@ -107,8 +109,9 @@ public class ReaderFromFileAndSaveToDB
         final int MARK=3;
         String login=strings[LOGIN];
         String testStr=strings[TEST];
-        Date date=Date.valueOf(strings[DATE]);
-        int mark=(int)(Double.parseDouble(strings[MARK])*10);
+        String date=strings[DATE];
+        //TODO It's "kostyl", but I don't know how it's will correct
+        String mark= String.valueOf((int)(Double.parseDouble(strings[MARK])));
         return FabricTest.getTest(testVersion,login,testStr,date,mark);
     }
 }

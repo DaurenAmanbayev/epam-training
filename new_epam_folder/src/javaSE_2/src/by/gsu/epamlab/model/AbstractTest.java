@@ -1,9 +1,7 @@
-package testJavaSE.src.by.gsu.epamlab.model;
+package javaSE_2.src.by.gsu.epamlab.model;
 
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public abstract class AbstractTest
 {
@@ -27,14 +25,6 @@ public abstract class AbstractTest
         this.date = date;
         this.mark = mark;
     }
-    public AbstractTest(String login, String name, String date, String mark)
-    {
-        this.login = login;
-        this.name = name;
-        this.date = Date.valueOf(date);
-        this.mark = Integer.parseInt(mark);
-    }
-
 
     public String getLogin()
     {

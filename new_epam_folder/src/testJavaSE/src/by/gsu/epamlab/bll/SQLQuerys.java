@@ -78,9 +78,9 @@ public class SQLQuerys implements AutoCloseable
         String LOGIN = "logins";
 
         boolean isAdd=false;
-        int idLogin=0;
-        int idTest=0;
-        int count=0;
+        int idLogin;
+        int idTest;
+        int count;
         Date dateSQL=test.getDate();
 
 
@@ -154,8 +154,8 @@ public class SQLQuerys implements AutoCloseable
         List<AbstractTest> result=new LinkedList<>();
         ResultSet resultSet=null;
         final  String GET_FIELD_FROM_TABLE ="SELECT logins.name , tests.name, results.dat, results.mark" +
-                " FROM tests right JOIN" +
-                " (logins right JOIN results ON logins.idLogin = results.loginId) ON tests.idTest = results.testId" +
+                " FROM tests inner JOIN" +
+                " (logins inner JOIN results ON logins.idLogin = results.loginId) ON tests.idTest = results.testId" +
                 " WHERE Month(results.dat)=?" +
                 " ORDER BY results.dat;";
 
@@ -170,8 +170,8 @@ public class SQLQuerys implements AutoCloseable
             {
                 String login=resultSet.getString(1);
                 String test=resultSet.getString(2);
-                Date date=resultSet.getDate(3);
-                int mark=resultSet.getInt(4);
+                String date=resultSet.getString(3);
+                String mark=resultSet.getString(4);
                 AbstractTest testIn=FabricTest.getTest(typeOfTest,login,test,date,mark);
                 result.add(testIn);
             }
@@ -186,8 +186,6 @@ public class SQLQuerys implements AutoCloseable
         }
         return result;
     }
-
-
 
     @Override
     public void close() throws Exception

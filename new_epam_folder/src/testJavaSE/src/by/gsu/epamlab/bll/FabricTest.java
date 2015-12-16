@@ -6,8 +6,6 @@ import testJavaSE.src.by.gsu.epamlab.model.TestTask1;
 import testJavaSE.src.by.gsu.epamlab.model.TestTask2;
 import testJavaSE.src.by.gsu.epamlab.model.TestTask3;
 
-import java.sql.Date;
-
 
 public class FabricTest
 {
@@ -16,7 +14,7 @@ public class FabricTest
         TASK1
                 {
                     @Override
-                    AbstractTest getTest(String login, String test, Date date, int mark)
+                    AbstractTest getTest(String login, String test, String date, String mark)
                     {
                         return new TestTask1(login,test,date,mark);
                     }
@@ -24,7 +22,7 @@ public class FabricTest
         TASK2
             {
                 @Override
-                AbstractTest getTest(String login, String test, Date date, int mark)
+                AbstractTest getTest(String login, String test, String date, String mark)
                 {
                     return new TestTask2(login,test,date,mark);
                 }
@@ -32,14 +30,14 @@ public class FabricTest
         TASK3
             {
                 @Override
-                AbstractTest getTest(String login, String test, Date date, int mark)
+                AbstractTest getTest(String login, String test, String date, String mark)
                 {
                     return new TestTask3(login,test,date,mark);
                 }
             };
-        abstract AbstractTest getTest(String login, String test, Date date,int mark);
+        abstract AbstractTest getTest(String login, String test, String date,String mark);
     }
-    public static AbstractTest getTest(String typeTest,String login,String test,Date date,int mark)
+    public static AbstractTest getTest(String typeTest,String login,String test,String date,String mark)
     {
         SelectTest selectTest= SelectTest.valueOf(typeTest);
         return selectTest.getTest(login, test, date, mark);

@@ -1,4 +1,4 @@
-package testJavaSE.src.by.gsu.epamlab.bll;
+package javaSE_2.src.by.gsu.epamlab.bll.DAO;
 
 import testJavaSE.src.Runner1;
 
@@ -16,14 +16,14 @@ public class ConnectionDb implements AutoCloseable
     private String user;
     private String password;
     private String driver;
-    private static String DB_URL="dbUrl";
-    private static String PASSWORD="password";
-    private static String USER="user";
-    private static String DRIVER="driver";
 
 
     private ConnectionDb() throws ClassNotFoundException, SQLException
     {
+        String DB_URL = "dbUrl";
+        String PASSWORD = "password";
+        String USER = "user";
+        String DRIVER = "driver";
 
         ResourceBundle resourcesBundle=ResourceBundle.getBundle(Runner1.RESOURCE_NAME);
         Enumeration<String> resourcesKey=resourcesBundle.getKeys();

@@ -1,14 +1,18 @@
-package testJavaSE.src.by.gsu.epamlab.bll;
+package javaSE_2.src.by.gsu.epamlab.model.xml;
 
 
+import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
+import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MySaxParser extends DefaultHandler implements CreateNewRowResults
+public class MySaxParser extends DefaultHandler
 {
     private enum Tags
     {RESULTS,STUDENT,LOGIN,TESTS,TEST}
@@ -17,17 +21,17 @@ public class MySaxParser extends DefaultHandler implements CreateNewRowResults
     private boolean isLogin;
     private String login;
     private String thisElement;
-    private CreateNewRowResults createNewRowResults;
+    private List<AbstractTest> result;
+    private IFabricTest fabricTest;
 
-    public MySaxParser(CreateNewRowResults createNewRowResults) throws SQLException
+    public MySaxParser(IFabricTest fabricTest)
     {
         super();
         this.isStudent=false;
         this.isLogin=false;
-        this.createNewRowResults = createNewRowResults;
+        this.fabricTest=fabricTest;
+        result=new ArrayList<>();
     }
-
-
 
     @Override
     public void startDocument() throws SAXException
@@ -53,16 +57,9 @@ public class MySaxParser extends DefaultHandler implements CreateNewRowResults
             {
                 if(isStudent)
                 {
-                    try
-                    {
-                        String out=login+SEPARATOR+attributes.getValue(NAME)+SEPARATOR+
-                        attributes.getValue(DATE)+SEPARATOR+attributes.getValue(MARK);
-                        createNewRowResults.setAction(out);
-                    }catch (SQLException e)
-                    {
-                        e.printStackTrace();
-                    }
-
+                    AbstractTest test=fabricTest.getTestFromFile(login,attributes.getValue(NAME)
+                            ,attributes.getValue(DATE),attributes.getValue(MARK));
+                    result.add(test);
                 }
                 break;
             }
@@ -113,9 +110,9 @@ public class MySaxParser extends DefaultHandler implements CreateNewRowResults
         super.endDocument();
     }
 
-    @Override
-    public void setAction(String test) throws SQLException
+    public List<AbstractTest> getResult()
     {
-        return; //TODO This method need will be override in class up. "kostyl"
+        return result;
     }
+
 }
