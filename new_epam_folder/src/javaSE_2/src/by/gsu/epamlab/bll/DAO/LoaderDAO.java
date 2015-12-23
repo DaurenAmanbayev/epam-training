@@ -72,8 +72,8 @@ public class LoaderDAO
             addLogin=connection.prepareStatement(ADD_LOGIN, Statement.RETURN_GENERATED_KEYS);
             addTest=connection.prepareStatement(ADD_TEST, Statement.RETURN_GENERATED_KEYS);
             createNewResult=connection.prepareStatement(CREATE_NEW_RESULT);
-
             IFileReader reader = fabricTest.getReader();
+
 
             while (reader.hasNext())
             {

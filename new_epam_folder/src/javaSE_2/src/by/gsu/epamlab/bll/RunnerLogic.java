@@ -14,6 +14,7 @@ import java.util.Map;
 public class RunnerLogic
 {
     public static String RESOURCE_NAME="ConnectionDb";
+
     public static void logic(IFabricTest fabricTest)
     {
         try

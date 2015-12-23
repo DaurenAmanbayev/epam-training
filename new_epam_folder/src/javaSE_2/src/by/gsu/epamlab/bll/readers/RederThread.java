@@ -5,7 +5,7 @@ import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 /**
  * Created by User on 23.12.2015.
  */
-public class RederThread implements Runnable
+public class RederThread extends Thread
 {
 
     IFileReader fileReader;
@@ -22,7 +22,7 @@ public class RederThread implements Runnable
     {
         while (fileReader.hasNext())
         {
-            readerBuffer.put(fileReader.getTest());
+            readerBuffer.setResult(fileReader.getTest());
         }
     }
 }
