@@ -7,7 +7,7 @@ import java.sql.Date;
 
 public class TestInt extends AbstractTest
 {
-
+    public final static int FACTOR=1;
     public TestInt(String login, String name, String  date, String  mark)
     {
         int markParse=Integer.parseInt(mark);
@@ -28,4 +28,6 @@ public class TestInt extends AbstractTest
     {
         return fieldToString()+this.mark;
     }
+
+
 }

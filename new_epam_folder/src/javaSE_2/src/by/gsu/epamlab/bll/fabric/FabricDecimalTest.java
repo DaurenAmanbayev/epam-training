@@ -18,21 +18,22 @@ public class FabricDecimalTest implements IFabricTest
     {
         this.fileName = fileName;
     }
-
+    @Override
     public  AbstractTest getTestFromFile(String login, String name, String date, String mark)
     {
         return new TestDecimal(login,name,date,mark);
     }
-
+    @Override
     public   AbstractTest getTestFromDB(String login, String name, Date date, int mark)
     {
         return new TestDecimal(login,name,date,mark);
     }
+    @Override
     public  IFileReader getReader()
     {
         return new ReaderXML(this);
     }
-
+    @Override
     public String getFileName()
     {
         return this.fileName;
@@ -41,6 +42,6 @@ public class FabricDecimalTest implements IFabricTest
     @Override
     public int getFactor()
     {
-        return factor;
+        return TestDecimal.FACTOR;
     }
 }

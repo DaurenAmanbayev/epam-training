@@ -6,9 +6,7 @@ import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

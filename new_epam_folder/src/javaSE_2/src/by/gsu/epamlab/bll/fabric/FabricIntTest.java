@@ -1,7 +1,7 @@
 package javaSE_2.src.by.gsu.epamlab.bll.fabric;
 
 
-import javaSE_2.src.by.gsu.epamlab.bll.readers.CSVReader;
+import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderCSV;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
@@ -18,21 +18,22 @@ public class FabricIntTest implements IFabricTest
     {
         this.fileName = fileName;
     }
-
+    @Override
     public  AbstractTest getTestFromFile(String login, String name, String date, String mark)
     {
         return new TestInt(login,name,date,mark);
     }
-
+    @Override
     public   AbstractTest getTestFromDB(String login, String name, Date date, int mark)
     {
         return new TestInt(login,name,date,mark);
     }
+    @Override
     public  IFileReader getReader()
     {
-        return new CSVReader(this);
+        return new ReaderCSV(this);
     }
-
+    @Override
     public String getFileName()
     {
         return this.fileName;
@@ -41,6 +42,6 @@ public class FabricIntTest implements IFabricTest
     @Override
     public int getFactor()
     {
-        return factor;
+        return TestInt.FACTOR;
     }
 }

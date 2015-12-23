@@ -5,18 +5,10 @@ import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 public class LoaderDAO
 {
-    private final static String CREATE_NEW_RESULT="INSERT INTO results" +
-            "(loginId, testId, dat, mark) VALUES (?,?,?,?)";
-
-
     private static int getId(PreparedStatement getFromTable,PreparedStatement addToTable, String name) throws SQLException
     {
         int loginId=0;
@@ -62,18 +54,18 @@ public class LoaderDAO
         String GET_TEST_ID="SELECT idTest FROM tests where name=(?)";
         String ADD_LOGIN="INSERT INTO logins (name) VALUES (?)";
         String ADD_TEST="INSERT INTO tests (name) VALUES (?)";
+        String CREATE_NEW_RESULT="INSERT INTO results" +
+                "(loginId, testId, dat, mark) VALUES (?,?,?,?)";
 
-        PreparedStatement getLoginId;
-        PreparedStatement getTestId;
-        PreparedStatement addLogin;
-        PreparedStatement addTest;
-        PreparedStatement createNewResult;
-
+        PreparedStatement getLoginId=null;
+        PreparedStatement getTestId=null;
+        PreparedStatement addLogin=null;
+        PreparedStatement addTest=null;
+        PreparedStatement createNewResult=null;
 
         try
         {
             Connection connection=ConnectionDb.getConnection();
-            clearDB(connection);
 
             getLoginId=connection.prepareStatement(GET_LOGIN_ID);
             getTestId=connection.prepareStatement(GET_TEST_ID);
@@ -94,27 +86,35 @@ public class LoaderDAO
                 createNewResult.setInt(4,readTest.getMark());
                 createNewResult.executeUpdate();
             }
-
-        } catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            //TODO
+            reader.close();
 
         }
-
-
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            ConnectionDb.closeStatement(getLoginId,getTestId,addLogin,addTest,createNewResult);
+        }
     }
+
     private static void clearDB(Connection connection)
     {
+        final String CLEAR_RESULTS="DELETE FROM RESULTS";
+        PreparedStatement clear=null;
+
         try
         {
-            PreparedStatement clear=connection.prepareStatement("delete from results");
+            clear=connection.prepareStatement(CLEAR_RESULTS);
             clear.executeUpdate();
         } catch (SQLException e)
         {
             e.printStackTrace();
+        }
+        finally
+        {
+            ConnectionDb.closeStatement(clear);
         }
     }
 

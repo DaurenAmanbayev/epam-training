@@ -1,15 +1,16 @@
 package javaSE_2.src.by.gsu.epamlab.bll.DAO;
 
-import testJavaSE.src.Runner1;
+//import testJavaSE.src.Runner1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javaSE_2.src.by.gsu.epamlab.bll.RunnerLogic;
+
+import java.sql.*;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-public class ConnectionDb implements AutoCloseable
+public class ConnectionDb
 {
+    private static final String SQL_PROBLEM="Resource closing problem : ";
     private static ConnectionDb connectionDb;
     private static Connection connection;
     private String dbUrl;
@@ -25,7 +26,7 @@ public class ConnectionDb implements AutoCloseable
         String USER = "user";
         String DRIVER = "driver";
 
-        ResourceBundle resourcesBundle=ResourceBundle.getBundle(Runner1.RESOURCE_NAME);
+        ResourceBundle resourcesBundle=ResourceBundle.getBundle(RunnerLogic.RESOURCE_NAME);
         Enumeration<String> resourcesKey=resourcesBundle.getKeys();
         while (resourcesKey.hasMoreElements())
         {
@@ -50,12 +51,36 @@ public class ConnectionDb implements AutoCloseable
         return connection;
     }
 
-    @Override
-    public void close() throws Exception
+    public static void close()
     {
         if(connection!=null)
         {
-            connection.close();
+            try
+            {
+                connection.close();
+            } catch (SQLException e)
+            {
+                System.err.println(SQL_PROBLEM + e);
+            }
         }
+    }
+
+    public static <T extends Statement> void closeStatement(T ... stat )
+    {
+        for (T temp: stat)
+        {
+            if (temp != null)
+            {
+                try
+                {
+                    temp.close();
+                } catch (SQLException e)
+                {
+                    System.err.println(SQL_PROBLEM + e);
+                }
+            }
+        }
+
+
     }
 }

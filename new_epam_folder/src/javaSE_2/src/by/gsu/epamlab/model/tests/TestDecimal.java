@@ -7,11 +7,11 @@ import java.sql.Date;
 
 public class TestDecimal extends AbstractTest
 {
-    private final int TEN=10;
+    public static final int FACTOR =10;
 
     public TestDecimal(String login, String name, String date, String mark)
     {
-        int markParse=(int)(Double.parseDouble(mark)*TEN);
+        int markParse=(int)(Double.parseDouble(mark)* FACTOR);
         Date dateParse=Date.valueOf(date);
         this.login=login;
         this.name=name;
@@ -28,6 +28,9 @@ public class TestDecimal extends AbstractTest
     public String toString()
     {
         final String POINT=".";
-        return fieldToString()+mark/TEN+POINT+mark%TEN;
+        return fieldToString()+mark/ FACTOR +POINT+mark% FACTOR;
     }
+
+
+
 }

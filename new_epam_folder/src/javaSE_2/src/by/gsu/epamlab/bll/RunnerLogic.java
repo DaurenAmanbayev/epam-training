@@ -6,7 +6,6 @@ import javaSE_2.src.by.gsu.epamlab.bll.DAO.ResultDAO;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -14,13 +13,13 @@ import java.util.Map;
 
 public class RunnerLogic
 {
+    public static String RESOURCE_NAME="ConnectionDb";
     public static void logic(IFabricTest fabricTest)
     {
         try
         {
             LoaderDAO.loadResults(fabricTest);
-            Connection connection= ConnectionDb.getConnection();
-            ResultDAO resultDAO=new ResultDAO(connection,fabricTest);
+            ResultDAO resultDAO=new ResultDAO(ConnectionDb.getConnection(),fabricTest);
 
             Map<String,Double> avgMark=resultDAO.getAvgTest();
 
@@ -49,6 +48,7 @@ public class RunnerLogic
                 System.out.println(testsFromMonth.get(index));
                 index--;
             }
+            ConnectionDb.close();
 
         } catch (SQLException | ClassNotFoundException e)
         {

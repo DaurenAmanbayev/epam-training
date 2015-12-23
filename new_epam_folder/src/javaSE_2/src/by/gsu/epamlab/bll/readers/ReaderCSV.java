@@ -3,28 +3,27 @@ package javaSE_2.src.by.gsu.epamlab.bll.readers;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
-import testJavaSE.src.by.gsu.epamlab.model.CreateNewRowResults;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.sql.SQLException;
 import java.util.Scanner;
 
-public class CSVReader implements IFileReader
+public class ReaderCSV implements IFileReader
 {
     private Scanner scanner;
     private IFabricTest fabricTest;
 
-    public CSVReader(IFabricTest fabricTest)
+    public ReaderCSV(IFabricTest fabricTest)
     {
         this.fabricTest = fabricTest;
+        scanner=null;
         try
         {
             scanner=new Scanner(new FileReader(fabricTest.getFileName()));
         }
         catch (FileNotFoundException e)
         {//TODO
-            e.printStackTrace();
+            System.err.println("File is not found, therefor new date didn't load");
         }
     }
 

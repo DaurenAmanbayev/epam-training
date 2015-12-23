@@ -7,10 +7,10 @@ import java.sql.Date;
 
 public class TestHalf extends AbstractTest
 {
-    private final int TWO=2;
+    public static final int FACTOR=2;
     public TestHalf(String login, String name, String date, String  mark)
     {
-        int markParse=(int)(Double.parseDouble(mark)*TWO);
+        int markParse=(int)(Double.parseDouble(mark)*FACTOR);
         Date dateParse=Date.valueOf(date);
         this.login=login;
         this.name=name;
@@ -34,8 +34,10 @@ public class TestHalf extends AbstractTest
         }
         else
         {
-            outMark=String.valueOf( mark/TWO);
+            outMark=String.valueOf( mark/FACTOR);
         }
         return fieldToString()+outMark;
     }
+
+
 }

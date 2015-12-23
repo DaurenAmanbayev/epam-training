@@ -2,7 +2,6 @@ package javaSE_2.src.by.gsu.epamlab.bll.DAO;
 
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
-import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -16,6 +15,10 @@ public class ResultDAO
 
     private final static SimpleDateFormat ONLY_MONTH =new SimpleDateFormat("MM");
     private final static SimpleDateFormat ONLY_YEAR=new SimpleDateFormat("yyyy");
+    private final static int ONE=1;
+    private final static int TWO=2;
+    private final static int THREE =3;
+    private final static int FOR=4;
 
     private static Connection connection;
     private  IFabricTest fabricTest;
@@ -47,14 +50,14 @@ public class ResultDAO
             int month=Integer.parseInt(ONLY_MONTH.format(now));
             int year=Integer.parseInt(ONLY_YEAR.format(now));
 
-            preparedStatement.setInt(1,fabricTest.getFactor());
-            preparedStatement.setInt(2,month);
-            preparedStatement.setInt(3,year);
+            preparedStatement.setInt(ONE,fabricTest.getFactor());
+            preparedStatement.setInt(TWO,month);
+            preparedStatement.setInt(THREE,year);
             resultSet=preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                result.put(resultSet.getString(1),resultSet.getDouble(2));
+                result.put(resultSet.getString(ONE),resultSet.getDouble(2));
             }
         }
         finally
@@ -84,16 +87,16 @@ public class ResultDAO
             int month=Integer.parseInt(ONLY_MONTH.format(now));
             int year=Integer.parseInt(ONLY_YEAR.format(now));
 
-            preparedStatement.setInt(1,month);
-            preparedStatement.setInt(2,year);
+            preparedStatement.setInt(ONE,month);
+            preparedStatement.setInt(TWO,year);
             resultSet=preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                String login=resultSet.getString(1);
-                String test=resultSet.getString(2);
-                Date date=resultSet.getDate(3);
-                int mark=resultSet.getInt(4);
+                String login=resultSet.getString(ONE);
+                String test=resultSet.getString(TWO);
+                Date date=resultSet.getDate(THREE);
+                int mark=resultSet.getInt(FOR);
                 AbstractTest testIn=fabricTest.getTestFromDB(login,test,date,mark);
                 result.add(testIn);
             }

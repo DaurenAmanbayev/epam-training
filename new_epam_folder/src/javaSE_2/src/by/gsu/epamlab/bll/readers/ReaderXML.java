@@ -17,6 +17,7 @@ public class ReaderXML implements IFileReader
 
     public ReaderXML(IFabricTest fabricTest)
     {
+        results=null;
 
         try {
             XMLReader reader = XMLReaderFactory.createXMLReader();
@@ -27,9 +28,14 @@ public class ReaderXML implements IFileReader
             reader.parse(fabricTest.getFileName());
             results =handler.getResult().iterator();
 
-        } catch (SAXException | IOException e) {
+        }
+        catch (SAXException  e) {
 
             e.printStackTrace();
+        }
+        catch (IOException e)
+        {//TODO
+            System.err.println("File is not found, therefor new date didn't load");
         }
     }
 

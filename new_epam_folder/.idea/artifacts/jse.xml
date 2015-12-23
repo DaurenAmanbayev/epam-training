@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jse">
+    <output-path>$PROJECT_DIR$/out/artifacts/jse</output-path>
+    <root id="archive" name="jse.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/src/testJavaSE" />
+    </root>
+  </artifact>
+</component>
