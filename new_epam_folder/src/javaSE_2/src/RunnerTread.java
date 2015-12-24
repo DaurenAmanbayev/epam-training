@@ -10,10 +10,10 @@ public class RunnerTread
 {
     public static void main(String[] args)
     {
-        //final  String fileName="src/in.csv";
-        final  String fileName="src/xml/students.xml";
+        final  String fileName="src/in1.csv";
+        //final  String fileName="src/xml/students1.xml";
 
-        IFabricTest fabricTest=new FabricXMLThreadTest(fileName);
+        IFabricTest fabricTest=new FabricCSVThreadTest(fileName);
         RunnerLogic.logic(fabricTest);
     }
 }
