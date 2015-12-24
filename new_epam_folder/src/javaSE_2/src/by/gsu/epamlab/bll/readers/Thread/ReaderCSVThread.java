@@ -1,5 +1,6 @@
-package javaSE_2.src.by.gsu.epamlab.bll.readers;
+package javaSE_2.src.by.gsu.epamlab.bll.readers.thread;
 
+import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderBuffer;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 
 
@@ -26,4 +27,6 @@ public class ReaderCSVThread implements Runnable
         }
 
     }
+
+
 }

@@ -3,12 +3,10 @@ package javaSE_2.src.by.gsu.epamlab.bll.fabric;
 
 import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderBuffer;
 import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderCSV;
-import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderCSVThread;
-import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderXMLThread;
+import javaSE_2.src.by.gsu.epamlab.bll.readers.thread.ReaderCSVThread;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
-import javaSE_2.src.by.gsu.epamlab.model.tests.TestDecimal;
 import javaSE_2.src.by.gsu.epamlab.model.tests.TestInt;
 
 import java.sql.Date;

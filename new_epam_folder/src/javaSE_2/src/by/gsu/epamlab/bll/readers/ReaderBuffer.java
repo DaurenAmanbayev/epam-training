@@ -9,6 +9,7 @@ public class ReaderBuffer implements IFileReader
     private AbstractTest buffer;
     private boolean empty = true;
     private volatile boolean hasNext=true;
+    private volatile boolean endFile=false;
 
 
 
@@ -20,7 +21,7 @@ public class ReaderBuffer implements IFileReader
     public synchronized void setResult (AbstractTest result) {
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -43,9 +44,8 @@ public class ReaderBuffer implements IFileReader
 
     public synchronized void endOfFile()
     {
-        hasNext=false;
-        empty=true;
-        notifyAll();
+        endFile=true;
+        if(empty){hasNext=false;}
     }
 
 
@@ -53,16 +53,15 @@ public class ReaderBuffer implements IFileReader
     public synchronized AbstractTest getTest()
     {
 
-        /*try {
-            Thread.sleep(500);
+        try {
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
 
         while (empty)
         {
-            if(!hasNext){break;}
             try {
                 wait();
             } catch (InterruptedException e){ }
@@ -70,6 +69,7 @@ public class ReaderBuffer implements IFileReader
         }
         empty = true;
         notifyAll();
+        hasNext=!endFile;
         System.out.println("SET to DB: " + buffer+ " hasNext= "+hasNext);
         return buffer;
     }

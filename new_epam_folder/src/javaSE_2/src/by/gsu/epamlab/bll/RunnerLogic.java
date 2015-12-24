@@ -20,7 +20,7 @@ public class RunnerLogic
         try
         {
             LoaderDAO.loadResults(fabricTest);
-            ResultDAO resultDAO=new ResultDAO(ConnectionDb.getConnection(),fabricTest);
+           /* ResultDAO resultDAO=new ResultDAO(ConnectionDb.getConnection(),fabricTest);
 
             Map<String,Double> avgMark=resultDAO.getAvgTest();
 
@@ -48,10 +48,10 @@ public class RunnerLogic
             {
                 System.out.println(testsFromMonth.get(index));
                 index--;
-            }
+            }*/
             ConnectionDb.close();
 
-        } catch (SQLException | ClassNotFoundException e)
+        } catch (SQLException  e)
         {
             e.printStackTrace();
         }

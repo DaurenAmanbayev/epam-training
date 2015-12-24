@@ -110,7 +110,7 @@ public class MySaxParserForThread extends DefaultHandler
     public void endDocument() throws SAXException
     {
         super.endDocument();
-        buffer.endOfFile();
+        //buffer.endOfFile();
     }
 
 
