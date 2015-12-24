@@ -1,16 +1,19 @@
 package javaSE_2.src.by.gsu.epamlab.model.xml;
 
 
+import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderBuffer;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
+import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySaxParser extends DefaultHandler
+public class MySaxParserForThread extends DefaultHandler
 {
     private enum Tags
     {RESULTS,STUDENT,LOGIN,TESTS,TEST}
@@ -19,16 +22,16 @@ public class MySaxParser extends DefaultHandler
     private boolean isLogin;
     private String login;
     private String thisElement;
-    private List<AbstractTest> result;
     private IFabricTest fabricTest;
+    private ReaderBuffer buffer;
 
-    public MySaxParser(IFabricTest fabricTest)
+    public MySaxParserForThread(IFabricTest fabricTest, ReaderBuffer buffer)
     {
         super();
         this.isStudent=false;
         this.isLogin=false;
         this.fabricTest=fabricTest;
-        result=new ArrayList<>();
+        this.buffer=buffer;
     }
 
     @Override
@@ -57,7 +60,8 @@ public class MySaxParser extends DefaultHandler
                 {
                     AbstractTest test=fabricTest.getTestFromFile(login,attributes.getValue(NAME)
                             ,attributes.getValue(DATE),attributes.getValue(MARK));
-                    result.add(test);//setbuffer(test);
+                    //result.add(test);//setbuffer(test);
+                    buffer.setResult(test);
                 }
                 break;
             }
@@ -106,11 +110,8 @@ public class MySaxParser extends DefaultHandler
     public void endDocument() throws SAXException
     {
         super.endDocument();
+        buffer.endOfFile();
     }
 
-    public List<AbstractTest> getResult()
-    {
-        return result;
-    }
 
 }

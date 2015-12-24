@@ -8,34 +8,26 @@ public class ReaderBuffer implements IFileReader
 {
     private AbstractTest buffer;
     private boolean empty = true;
-    private boolean hasNext=false;
+    private volatile boolean hasNext=true;
 
 
 
     public ReaderBuffer() {
         buffer=null;
-
     }
 
-
-    public synchronized AbstractTest getResult()
-    {
-
-        while (empty) {
-            try {
-                wait();
-            } catch (InterruptedException e) {}
-        }
-        empty = true;
-        notifyAll();
-        System.out.println("SET to DB: " +buffer);
-        hasNext=false;
-        return buffer;
-    }
 
     public synchronized void setResult (AbstractTest result) {
 
-        while (!empty) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+        while (!empty ) {
             try {
                 wait();
             } catch (InterruptedException e) {}
@@ -44,20 +36,42 @@ public class ReaderBuffer implements IFileReader
         empty = false;
 
         this.buffer = result;
-        hasNext=true;
-
-        notifyAll();
         System.out.println("LOAD from file:  "+ result);
+        notifyAll();
 
     }
 
-
+    public synchronized void endOfFile()
+    {
+        hasNext=false;
+        empty=true;
+        notifyAll();
+    }
 
 
     @Override
-    public AbstractTest getTest()
+    public synchronized AbstractTest getTest()
     {
-        return getResult();
+
+        /*try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
+
+        while (empty)
+        {
+            if(!hasNext){break;}
+            try {
+                wait();
+            } catch (InterruptedException e){ }
+
+        }
+        empty = true;
+        notifyAll();
+        System.out.println("SET to DB: " + buffer+ " hasNext= "+hasNext);
+        return buffer;
     }
 
     @Override

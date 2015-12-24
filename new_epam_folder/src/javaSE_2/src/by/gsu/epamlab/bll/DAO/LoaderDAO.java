@@ -74,7 +74,6 @@ public class LoaderDAO
             createNewResult=connection.prepareStatement(CREATE_NEW_RESULT);
             IFileReader reader = fabricTest.getReader();
 
-
             while (reader.hasNext())
             {
                 AbstractTest readTest=reader.getTest();
@@ -84,7 +83,7 @@ public class LoaderDAO
                 createNewResult.setInt(2,idTest);
                 createNewResult.setDate(3,readTest.getDate());
                 createNewResult.setInt(4,readTest.getMark());
-                createNewResult.executeUpdate();
+                //createNewResult.executeUpdate(); //TODO Not save to db for test
             }
             reader.close();
 

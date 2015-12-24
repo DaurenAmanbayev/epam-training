@@ -2,7 +2,6 @@ package javaSE_2.src;
 
 import javaSE_2.src.by.gsu.epamlab.bll.RunnerLogic;
 import javaSE_2.src.by.gsu.epamlab.bll.fabric.FabricIntTest;
-import javaSE_2.src.by.gsu.epamlab.bll.fabric.FabricThreadTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 
 public class RunnerInt
@@ -11,7 +10,7 @@ public class RunnerInt
     {
         final  String fileName="src/in.csv";
 
-        IFabricTest fabricTest=new FabricThreadTest(fileName);
+        IFabricTest fabricTest=new FabricIntTest(fileName);
         RunnerLogic.logic(fabricTest);
     }
 }
