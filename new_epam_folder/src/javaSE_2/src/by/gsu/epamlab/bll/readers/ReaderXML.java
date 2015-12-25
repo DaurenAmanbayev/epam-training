@@ -1,6 +1,7 @@
 package javaSE_2.src.by.gsu.epamlab.bll.readers;
 
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 import javaSE_2.src.by.gsu.epamlab.model.xml.MySaxParser;
@@ -29,13 +30,10 @@ public class ReaderXML implements IFileReader
             results =handler.getResult().iterator();
 
         }
-        catch (SAXException  e) {
+        catch (SAXException | IOException e)
+        {
 
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {//TODO
-            System.err.println("File is not found, therefor new date didn't load");
+            System.err.println(Constants.FILE_NOT_FOUND);
         }
     }
 

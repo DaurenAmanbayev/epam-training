@@ -3,6 +3,8 @@ package javaSE_2.src.by.gsu.epamlab.bll.DAO;
 //import testJavaSE.src.Runner1;
 
 import javaSE_2.src.by.gsu.epamlab.bll.RunnerLogic;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
+import javaSE_2.src.by.gsu.epamlab.model.exeption.ConnectionExeption;
 
 import java.sql.*;
 import java.util.Enumeration;
@@ -19,7 +21,7 @@ public class ConnectionDb
     private String driver;
 
 
-    private ConnectionDb() throws ClassNotFoundException, SQLException
+    private ConnectionDb()
     {
         String DB_URL = "dbUrl";
         String PASSWORD = "password";
@@ -37,12 +39,19 @@ public class ConnectionDb
             if (key.compareTo(DRIVER)==0){driver=resourcesBundle.getString(key).trim();}
         }
 
+        try
+        {
             Class.forName(driver);
             connection= DriverManager.getConnection(dbUrl,user,password);
+
+        } catch (ClassNotFoundException | SQLException e)
+        {
+            throw new ConnectionExeption(Constants.CONNECTION_FAIL);
+        }
     }
 
 
-    public static Connection getConnection() throws SQLException, ClassNotFoundException
+    public static Connection getConnection()
     {
         if(connectionDb==null)
         {

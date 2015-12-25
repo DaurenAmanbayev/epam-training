@@ -1,6 +1,7 @@
 package javaSE_2.src.by.gsu.epamlab.bll.DAO;
 
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
 
@@ -48,7 +49,7 @@ public class LoaderDAO
 
     }
 
-    public static void loadResults(IFabricTest fabricTest) throws SQLException
+    public static void loadResults(IFabricTest fabricTest)
     {
         String GET_LOGIN_ID="SELECT idLogin FROM logins where name=(?)";
         String GET_TEST_ID="SELECT idTest FROM tests where name=(?)";
@@ -87,12 +88,10 @@ public class LoaderDAO
             }
             reader.close();
 
-        }
-        catch (ClassNotFoundException e)
+        } catch (SQLException e)
         {
-            e.printStackTrace();
-        }
-        finally
+            System.err.println(Constants.SQL_PROBLEM);
+        } finally
         {
             ConnectionDb.closeStatement(getLoginId,getTestId,addLogin,addTest,createNewResult);
         }

@@ -60,7 +60,6 @@ public class MySaxParserForThread extends DefaultHandler
                 {
                     AbstractTest test=fabricTest.getTestFromFile(login,attributes.getValue(NAME)
                             ,attributes.getValue(DATE),attributes.getValue(MARK));
-                    //result.add(test);//setbuffer(test);
                     buffer.setResult(test);
                 }
                 break;
@@ -110,7 +109,6 @@ public class MySaxParserForThread extends DefaultHandler
     public void endDocument() throws SAXException
     {
         super.endDocument();
-        //buffer.endOfFile();
     }
 
 

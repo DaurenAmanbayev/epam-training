@@ -1,8 +1,10 @@
 package javaSE_2.src.by.gsu.epamlab.bll.readers;
 
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 import javaSE_2.src.by.gsu.epamlab.model.IFileReader;
+import javaSE_2.src.by.gsu.epamlab.model.exeption.SourceException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,8 +24,8 @@ public class ReaderCSV implements IFileReader
             scanner=new Scanner(new FileReader(fabricTest.getFileName()));
         }
         catch (FileNotFoundException e)
-        {//TODO
-            System.err.println("File is not found, therefor new date didn't load");
+        {
+            System.err.println(Constants.FILE_NOT_FOUND);
         }
     }
 

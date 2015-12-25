@@ -25,7 +25,7 @@ public class ResultDAO
 
 
 
-    public ResultDAO(Connection connection, IFabricTest fabricTest) throws SQLException, ClassNotFoundException
+    public ResultDAO(Connection connection, IFabricTest fabricTest) throws SQLException
     {
         if (ResultDAO.connection ==null)
         {

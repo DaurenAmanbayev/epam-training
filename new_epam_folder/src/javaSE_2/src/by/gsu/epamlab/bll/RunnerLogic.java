@@ -4,6 +4,7 @@ import javaSE_2.src.by.gsu.epamlab.bll.DAO.ConnectionDb;
 import javaSE_2.src.by.gsu.epamlab.bll.DAO.LoaderDAO;
 import javaSE_2.src.by.gsu.epamlab.bll.DAO.ResultDAO;
 import javaSE_2.src.by.gsu.epamlab.model.AbstractTest;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
 
 import java.sql.SQLException;
@@ -17,21 +18,27 @@ public class RunnerLogic
 
     public static void logic(IFabricTest fabricTest)
     {
+
+        LoaderDAO.loadResults(fabricTest);
+
+        ResultDAO resultDAO= null;
         try
         {
-            LoaderDAO.loadResults(fabricTest);
-            ResultDAO resultDAO=new ResultDAO(ConnectionDb.getConnection(),fabricTest);
-
-            Map<String,Double> avgMark=resultDAO.getAvgTest();
-
+            resultDAO = new ResultDAO(ConnectionDb.getConnection(),fabricTest);
+            Map<String,Double> avgMark = resultDAO.getAvgTest();
             System.out.println("Avg mark from current month\n");
 
             for (Map.Entry<String,Double> temp:avgMark.entrySet())
             {
                 System.out.println(temp.getKey()+ "--"+temp.getValue());
             }
+        } catch (SQLException e)
+        {
+            System.err.println(Constants.SQL_PROBLEM);
+        }
 
-
+        try
+        {
             List<AbstractTest> testsFromMonth=resultDAO.getResultTestAtCurrentMonth();
 
             System.out.println("Test at current month\n");
@@ -50,11 +57,12 @@ public class RunnerLogic
                 index--;
             }
             ConnectionDb.close();
-
-        } catch (SQLException | ClassNotFoundException e)
-        {
-            e.printStackTrace();
         }
+        catch (SQLException e)
+        {
+            System.err.println(Constants.SQL_PROBLEM);
+        }
+
 
     }
 }
