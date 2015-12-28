@@ -11,35 +11,19 @@ import javaSE_2.src.by.gsu.epamlab.model.tests.TestInt;
 
 import java.sql.Date;
 
-public class FabricDecimalThreadTest implements IFabricTest
+public class FabricDecimalThreadTest extends FabricDecimalTest implements IFabricTest
 {
-    private String fileName;
-    private final static int factor=1;
     private ReaderBuffer fileReader;
-    private IFileReader CsvReader;
-    private ReaderXMLThread readerXMLThread;
-
 
     public FabricDecimalThreadTest(String fileName)
     {
-        this.fileName = fileName;
+        super(fileName);
+        String fileName1 = fileName;
         fileReader=new ReaderBuffer();
-        readerXMLThread =new ReaderXMLThread(this,fileReader);
+        ReaderXMLThread readerXMLThread = new ReaderXMLThread(this, fileReader);
         Thread t=new Thread(readerXMLThread);
         t.start();
 
-    }
-
-
-    @Override
-    public  AbstractTest getTestFromFile(String login, String name, String date, String mark)
-    {
-        return new TestDecimal(login,name,date,mark);
-    }
-    @Override
-    public   AbstractTest getTestFromDB(String login, String name, Date date, int mark)
-    {
-        return new TestDecimal(login,name,date,mark);
     }
     @Override
     public  IFileReader getReader()
@@ -48,15 +32,4 @@ public class FabricDecimalThreadTest implements IFabricTest
     }
 
 
-    @Override
-    public String getFileName()
-    {
-        return this.fileName;
-    }
-
-    @Override
-    public int getFactor()
-    {
-        return TestInt.FACTOR;
-    }
 }

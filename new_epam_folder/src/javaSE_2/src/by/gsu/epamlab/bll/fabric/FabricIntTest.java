@@ -12,12 +12,12 @@ import java.sql.Date;
 public class FabricIntTest implements IFabricTest
 {
     private String fileName;
-    private final static int factor=1;
 
     public FabricIntTest(String fileName)
     {
         this.fileName = fileName;
     }
+
     @Override
     public  AbstractTest getTestFromFile(String login, String name, String date, String mark)
     {
@@ -33,6 +33,7 @@ public class FabricIntTest implements IFabricTest
     {
         return new ReaderCSV(this);
     }
+
     @Override
     public String getFileName()
     {

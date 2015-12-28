@@ -1,7 +1,9 @@
 package javaSE_2.src.by.gsu.epamlab.bll.readers.thread;
 
 import javaSE_2.src.by.gsu.epamlab.bll.readers.ReaderBuffer;
+import javaSE_2.src.by.gsu.epamlab.model.Constants.Constants;
 import javaSE_2.src.by.gsu.epamlab.model.IFabricTest;
+import javaSE_2.src.by.gsu.epamlab.model.exeption.SourceException;
 import javaSE_2.src.by.gsu.epamlab.model.xml.MySaxParserForThread;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -35,16 +37,14 @@ public class ReaderXMLThread implements Runnable
 
 
 
+            } catch (SAXException | IOException e)
+            {
+                System.err.println(Constants.FILE_NOT_FOUND);
             }
-            catch (SAXException e) {
-
-                e.printStackTrace();
+            finally
+            {
+                readerBuffer.endOfFile();
             }
-            catch (IOException e)
-            {//TODO
-                System.err.println("File is not found, therefor new date didn't load");
-            }
-            readerBuffer.endOfFile();
 
 
         }

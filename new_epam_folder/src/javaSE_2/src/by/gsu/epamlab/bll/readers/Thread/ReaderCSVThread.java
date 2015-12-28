@@ -22,10 +22,10 @@ public class ReaderCSVThread implements Runnable
         while (fileReader.hasNext())
         {
             readerBuffer.setResult(fileReader.getTest());
-            if(!fileReader.hasNext()){ readerBuffer.endOfFile();}
+
 
         }
-
+        readerBuffer.endOfFile();
     }
 
 

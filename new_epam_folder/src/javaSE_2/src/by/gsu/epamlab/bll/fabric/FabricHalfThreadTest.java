@@ -12,53 +12,27 @@ import javaSE_2.src.by.gsu.epamlab.model.tests.TestInt;
 
 import java.sql.Date;
 
-public class FabricHalfThreadTest implements IFabricTest
+public class FabricHalfThreadTest extends FabricHalfTest implements IFabricTest
 {
-    private String fileName;
-    private final static int factor=1;
     private ReaderBuffer fileReader;
-    private IFileReader CsvReader;
-    private ReaderCSVThread readerCSVThread;
 
 
     public FabricHalfThreadTest(String fileName)
     {
-        this.fileName = fileName;
+        super(fileName);
+        String fileName1 = fileName;
         fileReader=new ReaderBuffer();
-        CsvReader=new ReaderCSV(this);
-        readerCSVThread =new ReaderCSVThread(CsvReader,fileReader);
+        IFileReader csvReader = new ReaderCSV(this);
+        ReaderCSVThread readerCSVThread = new ReaderCSVThread(csvReader, fileReader);
         Thread t=new Thread(readerCSVThread);
         t.start();
 
     }
 
-
-    @Override
-    public  AbstractTest getTestFromFile(String login, String name, String date, String mark)
-    {
-        return new TestHalf(login,name,date,mark);
-    }
-    @Override
-    public   AbstractTest getTestFromDB(String login, String name, Date date, int mark)
-    {
-        return new TestHalf(login,name,date,mark);
-    }
     @Override
     public  IFileReader getReader()
     {
         return fileReader;
     }
 
-
-    @Override
-    public String getFileName()
-    {
-        return this.fileName;
-    }
-
-    @Override
-    public int getFactor()
-    {
-        return TestInt.FACTOR;
-    }
 }

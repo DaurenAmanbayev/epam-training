@@ -10,8 +10,6 @@ import java.sql.Date;
 public class FabricDecimalTest implements IFabricTest
 {
     private String fileName;
-    private final static int factor=10;
-
 
 
     public FabricDecimalTest(String fileName)
